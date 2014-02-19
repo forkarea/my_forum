@@ -31,7 +31,7 @@ try {
 
 ?>
 </table>
-<form action="index_upload.php" method="post">
+<form action="new_post.php" method="post">
 <p><textarea rows="5" cols="20" name="text">New post</textarea></p>
 <input type="hidden" name="thread_id" value="<?php echo $thread_id ?>">
 <p><input type="submit"></p>
