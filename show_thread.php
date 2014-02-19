@@ -2,20 +2,33 @@
         header('Content-Type: text/html; charset=utf-8');
         include "common_functions.php";
         $thread_id = sanitize_nonzero_integer_input($_GET['thread_id'], 'threadlist.php');
+
+
+        include "database_connection.php";
+        $dbh = get_database_connection();
+        
+        $stmt = $dbh->prepare('SELECT name FROM threads WHERE id=:thread_id');
+        $stmt->bindParam(':thread_id', $thread_id);
+        if ($stmt->execute()) {
+                $row = $stmt->fetch();
+                $thread_name = $row[0];
+        }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-        <title> My forum </title>
+        <title>
+                <?php echo escape_str_in_usual_html_pl($thread_name);  ?>
+        </title>
         <meta charset="utf-8">
 </head>
 <body>
 <table style="width: 70%" >
+        <h1> 
+                <?php echo escape_str_in_usual_html_pl($thread_name); ?>
+        </h1>
 <?php
 try {
-        include "database_connection.php";
-        $dbh = get_database_connection();
-        echo $thread_id;
         $stmt = $dbh->prepare('SELECT text FROM posts WHERE thread_id=:thread_id');
         $stmt->bindParam(':thread_id', $thread_id);
         if ($stmt->execute()) { 
@@ -25,6 +38,7 @@ try {
                         echo '</td></tr>';
                 }
         }
+
 } catch (PDOException $e) {
         print "Error!: cannot connect to the database!";
 }
