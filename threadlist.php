@@ -26,11 +26,7 @@ try {
 ?>
 
 </table>
-<form action="new_thread.php" method="post">
-        <p>Create new thread</p>
-        <p>Name: <input type="text" name="name"></input></p>
-        <p><input type="submit"></p>
-</form>
+<a href="new_thread_form.php">Create a new thread</a>
 
 </body>
 </html>
