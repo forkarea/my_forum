@@ -1,31 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-        <title> My forum </title>
-        <meta charset="utf-8">
-</head>
-<body>
 <?php
 try {
-        //phpinfo();
+//INPUT VALIDATION
+        include "common_functions.php";
+        $thread_id =  sanitize_nonzero_integer_input($_POST['thread_id'], 'threadlist.php');
+        $text = assert_not_null($_POST['text']);
+
+        $_POST=NULL;
+//END OF INPUT VALIDATION
+
         include "database_connection.php";
 
-        echo $_POST['text'];
         $dbh = get_database_connection();
-        $stmt = $dbh->prepare('insert into posts (text) values (:text)');
-        $stmt->bindParam(':text', $_POST['text']);
+        $stmt = $dbh->prepare('insert into posts (text, thread_id) values (:text, :thread_id)');
+        $stmt->bindParam(':text', $text);
+        $stmt->bindParam(':thread_id', $thread_id);
         if(! $stmt->execute())
                 echo 'Execution failed';
+
+        my_redirect('show_thread.php?thread_id='.$thread_id);
 
 } catch (PDOException $e) {
         print "Error!: cannot connect to the database!";
 }
-
-?>
-<form action="index_upload.php" method="post">
-<p><textarea rows="5" cols="20" name="text">New post</textarea></p>
-<p><input type="submit"></p>
-</form>
-
-</body>
-</html>
