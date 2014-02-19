@@ -1,12 +1,11 @@
 <?php
         include_once "common_functions.php";
-        include "page_header.php";
+        include_once "page_header.php";
         generate_page_header("My forum");
 ?>
 <h2>Create a new thread</h2>
 
 <form action="new_thread.php" method="post">
-        <p>Create new thread</p>
         <p>Name: <input type="text" name="name"></input></p>
         <p><textarea rows="5" cols="100" name="contents"></textarea></p>
         

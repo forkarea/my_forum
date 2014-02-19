@@ -6,15 +6,12 @@
 
 
         include_once "database_connection.php";
+        include_once "thread_class.php";
         $dbh = get_database_connection();
         
-        $stmt = $dbh->prepare('SELECT name FROM threads WHERE id=:thread_id');
-        $stmt->bindParam(':thread_id', $thread_id);
-        if ($stmt->execute()) {
-                $row = $stmt->fetch();
-                $thread_name = $row[0];
-        }
-
+        $my_thread = new ForumThread($thread_id);
+        $thread_name = $my_thread->get_name($dbh);
+        
         generate_page_header(escape_str_in_usual_html_pl($thread_name));
 ?>
 <table style="width: 70%" >
@@ -23,14 +20,15 @@
         </h1>
 <?php
 try {
-        $stmt = $dbh->prepare('SELECT text FROM posts WHERE thread_id=:thread_id');
-        $stmt->bindParam(':thread_id', $thread_id);
-        if ($stmt->execute()) { 
+        $stmt = $my_thread->get_all_posts($dbh);
+        if (!is_null($stmt)) {
                 while($row = $stmt->fetch()) {
                         echo '<tr><td style="border:1px solid black; padding:10px">';
                                 echo escape_str_in_usual_html_pl($row[0]);
                         echo '</td></tr>';
                 }
+        } else {
+        	echo NULL;
         }
 
 } catch (PDOException $e) {

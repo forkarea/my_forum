@@ -2,7 +2,7 @@
 function get_database_connection()
 {
         try {
-                $dbh = new PDO("mysql:host=localhost;dbname=my_php", "my_php", "abc", array(
+                $dbh = new PDO("mysql:host=localhost;dbname=my_php;charset=UTF8", "my_php", "abc", array(
                             PDO::ATTR_PERSISTENT => true
                     ));
                 if ($dbh === NULL)
