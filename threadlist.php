@@ -1,14 +1,9 @@
 <?php
-        header('Content-Type: text/html; charset=utf-8');
-        include "common_functions.php";
+        include_once "common_functions.php";
+        include "page_header.php";
+        generate_page_header("My forum");
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-        <title> My forum </title>
-        <meta charset="utf-8">
-</head>
-<body>
+<h2> List of threads </h2>
 <table style="width: 70%" >
 <?php
 try {
