@@ -8,10 +8,8 @@
 <table style="width: 70%" >
 <?php
 try {
-        //phpinfo();
-        $dbh = new PDO("mysql:host=localhost;dbname=my_php", "my_php", "abc", array(
-                    PDO::ATTR_PERSISTENT => true
-            ));
+        include "database_connection.php";
+        $dbh = get_database_connection();
         $stmt = $dbh->prepare('SELECT text from posts');
         if ($stmt->execute()) { 
                 while($row = $stmt->fetch()) {

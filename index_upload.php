@@ -8,11 +8,10 @@
 <?php
 try {
         //phpinfo();
-        echo $_POST['text'];
-        $dbh = new PDO("mysql:host=localhost;dbname=my_php", "my_php", "abc", array(
-                    PDO::ATTR_PERSISTENT => true
-            ));
+        include "database_connection.php";
 
+        echo $_POST['text'];
+        $dbh = get_database_connection();
         $stmt = $dbh->prepare('insert into posts (text) values (:text)');
         $stmt->bindParam(':text', $_POST['text']);
         if(! $stmt->execute())
