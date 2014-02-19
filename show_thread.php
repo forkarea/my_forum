@@ -39,10 +39,14 @@ try {
 
 ?>
 </table>
-<form action="new_post.php" method="post">
-<p><textarea rows="5" cols="20" name="text">New post</textarea></p>
-<input type="hidden" name="thread_id" value="<?php echo $thread_id ?>">
-<p><input type="submit"></p>
+<h2> Add a new post </h2>
+	<form action="new_post.php" method="post">
+	<p><textarea rows="5" cols="20" name="text">New post</textarea></p>
+	<input type="hidden" name="thread_id" value="<?php echo $thread_id ?>">
+	<p><input type="submit" value="Submit"></p>
+</form>
+<form action="threadlist.php" method="get">
+	<p><input type="submit" value="Go back to the thread list"></p>
 </form>
 
 </body>
