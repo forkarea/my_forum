@@ -5,9 +5,9 @@
                 header('Content-Type: text/html; charset=utf-8');
                 
                 echo '<!DOCTYPE html>';
-                echo '<html><head><title>';
+                echo '<html><head><meta charset="utf-8"><title>';
                 echo $escaped_title; 
-                echo '</title> <meta charset="utf-8"></head>';
+                echo '</title></head>';
                 echo '<body>';
                 echo '<h1>My forum</h1>';
         }
