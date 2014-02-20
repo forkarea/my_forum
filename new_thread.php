@@ -6,6 +6,7 @@ try {
         $contents = assert_not_null($_POST['contents']);        
 //END OF INPUT VALIDATION
 
+        include_once "forum_section_class.php";
         if (strlen($name) == 0) {
                 $error = 'New thread must have a name!';
         } else if (strlen($contents) == 0) {
@@ -13,22 +14,21 @@ try {
         } else {
                 include "database_connection.php";
                 $dbh = get_database_connection();
-                $stmt = $dbh->prepare('insert into threads (name) values (:text)');
-                $stmt->bindParam(':text', $name);
-                if(! $stmt->execute())
-                        echo 'Execution failed';
                 
-                $new_thread_id = $dbh->lastInsertId();
-                $stmt = $dbh->prepare('insert into posts (text, thread_id) values (:text, :thread_id)');
-                $stmt->bindParam(':text', $contents);
-                $stmt->bindParam(':thread_id', $dbh->lastInsertId());
-                $stmt->execute();
-
-                
-                my_redirect('show_thread.php?thread_id='.$new_thread_id);
+                $section = new ForumSection($dbh);
+                $new_thread = $section->add_thread($name);
+                if ($new_thread !== NULL) {
+                        if ($new_thread->add_post($dbh, $contents)) {
+                                my_redirect('show_thread.php?thread_id='.$new_thread->get_id());
+                        } else {
+                                $error = "Cannot add post to the thread";
+                        }
+                } else {
+                        $error = "Cannot create the thread!";
+                }
         }
 } catch (PDOException $e) {
-        print "Error!: cannot connect to the database!";
+        $error = "Database error";
 }
 
         include_once "page_header.php";

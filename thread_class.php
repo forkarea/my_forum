@@ -7,6 +7,10 @@
 			//echo $thread_id;
 		}
 		
+		public function get_id() {
+			return $this->id;
+		}
+		
 		public function get_name( $dbh ) {
 		        $stmt = $dbh->prepare('SELECT name FROM threads WHERE id=:thread_id');
 			$stmt->bindParam(':thread_id', $this->thread_id);
