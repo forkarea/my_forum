@@ -7,7 +7,8 @@ try {
         $contents = "";
         $thread_name_error_msg = NULL;
         $contents_error_msg = NULL;
-        
+
+
 
         if (array_key_exists('name', $_POST)) {
         //INPUT VALIDATION

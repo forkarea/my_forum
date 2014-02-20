@@ -39,9 +39,17 @@
                 if ($variable === NULL) {
                         my_redirect($target_address);
                 }
+                
                 $variable = (string)$variable;
 
-                if (preg_match('%^(?:
+                if (preg_match("//u", $variable)) {
+                        return $variable;
+                } else {
+                        return iconv('CP1252', 'UTF-8', $variable);
+                }
+
+
+                /*if (preg_match('%^(?:
                                 [\x09\x0A\x0D\x20-\x7E]              # ASCII
                                 | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
                                 | \xE0[\xA0-\xBF][\x80-\xBF]         # excluding overlongs
@@ -54,6 +62,15 @@
                         return $variable;
                 else
                         return iconv('CP1252', 'UTF-8', $variable);
+                 */
+        }
+
+        function test_sanitize_string_input()
+        {
+                $count = 5000000;
+                $string = str_repeat("\xff", $count); 
+                $string = sanitize_string_input($string);
+                echo strlen($string); //should be 2*$count
         }
 
         function escape_str_in_usual_html_pl($variable, $double_encode = true)
