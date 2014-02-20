@@ -27,7 +27,7 @@ try {
 ?>
 
 </table>
-<a href="new_thread_form.php">Create a new thread</a>
+<a href="new_thread.php">Create a new thread</a>
 
 </body>
 </html>
