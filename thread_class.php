@@ -42,9 +42,10 @@
                                 return false;
                         }
 
-			$stmt = $dbh->prepare('insert into posts (text, thread_id) values (:text, :thread_id)');
+			$stmt = $dbh->prepare('insert into posts (text, thread_id, time) values (:text, :thread_id, :time)');
 			$stmt->bindParam(':text', $text);
 			$stmt->bindParam(':thread_id', $this->thread_id);
+			$stmt->bindParam(':time', date('Y-m-d G:i:s'));
 			if(! $stmt->execute()) {
 				return false;
 			} else {
@@ -54,7 +55,7 @@
 		
 		public function get_all_posts( $dbh ) {
                         try {
-                                $stmt = $dbh->prepare('SELECT text FROM posts WHERE thread_id=:thread_id');
+                                $stmt = $dbh->prepare('SELECT text, time FROM posts WHERE thread_id=:thread_id');
                                 $stmt->bindParam(':thread_id', $this->thread_id);
                                 if ($stmt->execute())
                                         return $stmt;

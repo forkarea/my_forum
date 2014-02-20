@@ -40,7 +40,12 @@
         if (!is_null($stmt)) {
                 while($row = $stmt->fetch()) {
                         echo '<tr><td style="border:1px solid black; padding:10px">';
-                                echo escape_str_in_usual_html_pl($row[0]);
+                        $time = $row[1];
+                        if (!is_null($time)) {
+                                echo $row[1];
+                        }
+                        echo '<br>';
+                        echo escape_str_in_usual_html_pl($row[0]);
                         echo '</td></tr>';
                 }
         } 
