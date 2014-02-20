@@ -12,7 +12,9 @@ try {
         if (array_key_exists('name', $_POST)) {
         //INPUT VALIDATION
                 $name = sanitize_string_input($_POST['name']);
-                $contents = sanitize_string_input($_POST['contents']);
+                $contents = sanitize_string_input($_POST['contents']);        
+                $_POST=NULL;
+                $_GET=NULL;
         //END OF INPUT VALIDATION
 
                 

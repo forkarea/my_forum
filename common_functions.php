@@ -56,12 +56,14 @@
                         return iconv('CP1252', 'UTF-8', $variable);
         }
 
-        function escape_str_in_usual_html_pl($variable)
+        function escape_str_in_usual_html_pl($variable, $double_encode = true)
         {
                 if (PHP_VERSION_ID < 50400) {
-                        $variable = htmlspecialchars($variable, ENT_QUOTES, "UTF-8");
+                        $variable = htmlspecialchars($variable, 
+                                        ENT_QUOTES, "UTF-8", $double_encode);
                 } else {
-                        $variable = htmlspecialchars($variable, ENT_QUOTES | ENT_DISALLOWED | ENT_HTML5, "UTF-8");
+                        $variable = htmlspecialchars($variable, 
+                                        ENT_QUOTES | ENT_DISALLOWED | ENT_HTML5, "UTF-8", $double_encode);
                 }
                 
                 return $variable;
