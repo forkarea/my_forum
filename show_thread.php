@@ -12,12 +12,17 @@
         $text_error = NULL;
         if (array_key_exists('text', $_POST)) {
                 $text = sanitize_string_input($_POST['text']);
-                $_POST=NULL;
 
                 if (!$thread->add_post($dbh, $text)) {
                         $text_error = $thread->get_last_error();       
                 };
         };
+        if (is_null($text_error) && array_key_exists('thread_id', $_POST)) {
+                //redirect to a website using GET so that
+                //the address bar contains thread_id and
+                //can be sent to someone/bookmarked
+                my_redirect('show_thread.php?thread_id='.$thread_id);
+        }
 
         $thread_name = $thread->get_name($dbh);
         if ($thread_name === NULL) {
