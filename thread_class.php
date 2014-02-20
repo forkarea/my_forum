@@ -10,7 +10,7 @@
 		}
 		
 		public function get_id() {
-			return $this->id;
+			return $this->thread_id;
 		}
 		
 		public function get_name( $dbh ) {
