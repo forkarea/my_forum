@@ -11,8 +11,8 @@ try {
 
         if (array_key_exists('name', $_POST)) {
         //INPUT VALIDATION
-                $name = assert_not_null($_POST['name']);
-                $contents = assert_not_null($_POST['contents']);        
+                $name = sanitize_string_input($_POST['name']);
+                $contents = sanitize_string_input($_POST['contents']);
         //END OF INPUT VALIDATION
 
                 
@@ -65,7 +65,7 @@ try {
                 echo '</h2>';
         }
 ?>
-<form action="new_thread.php" method="post">
+<form action="new_thread.php" method="post" accept-charset="UTF-8">
         <?php  if ($thread_name_error_msg !== NULL) echo "<p>$thread_name_error_msg</p>" ?>
         <p>Name: <input type="text" name="name" maxlength="950" 
                 value="<?php echo escape_str_in_usual_html_pl($name) ?>">
