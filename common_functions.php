@@ -33,6 +33,10 @@
                 $value = (int)$variable;
                 return $value;
         }
+
+        function is_valid_utf8($variable) {
+                return preg_match("//u", $variable) === 1;
+        }
         
         function sanitize_string_input($variable, $target_address = '/')
         {
@@ -42,7 +46,7 @@
                 
                 $variable = (string)$variable;
 
-                if (preg_match("//u", $variable)) {
+                if (is_valid_utf8($variable)) {
                         return $variable;
                 } else {
                         return iconv('CP1252', 'UTF-8', $variable);
