@@ -1,6 +1,7 @@
 <?php
 	include_once "thread_class.php";
-	
+        include_once "database_connection.php";
+
 	class ForumSection {
 		private $dbh;
 		public function __construct ($dbh) {
@@ -10,7 +11,7 @@
 		public function add_thread($name) {
 		        $stmt = $this->dbh->prepare('insert into threads (name, time) values (:text, :time)');
 		        $stmt->bindParam(':text', $name);
-			$stmt->bindParam(':time', date('Y-m-d G:i:s'));
+			$stmt->bindParam(':time', current_date_for_db());
 		        if($stmt->execute()) {
 			        $new_thread_id = $this->dbh->lastInsertId();
 			        return new ForumThread($new_thread_id);

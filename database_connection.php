@@ -20,3 +20,8 @@ function get_database_connection()
         }
 
 }
+
+function current_date_for_db()
+{
+        return date('Y-m-d G:i:s');
+}
