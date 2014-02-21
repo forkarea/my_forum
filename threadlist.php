@@ -32,6 +32,8 @@ try {
 
 </table>
 <a href="new_thread.php">Create a new thread</a>
+<a href="new_user_form.php">Sign up</a>
+<a href="login_form.php">Log in</a>
 
 </body>
 </html>
