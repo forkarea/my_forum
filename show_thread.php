@@ -29,7 +29,7 @@
                 $thread_name = "";
         }
         
-        generate_page_header(escape_str_in_usual_html_pl($thread_name));
+        generate_page_header(escape_str_in_usual_html_pl($thread_name), $dbh);
 ?>
 <table style="width: 70%">
         <h1> 

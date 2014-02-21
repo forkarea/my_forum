@@ -1,15 +1,17 @@
 <?php
         include_once "common_functions.php";
         include_once "page_header.php";
+
         include_once "database_connection.php";
         include_once "forum_section_class.php";
-        generate_page_header("My forum");
+
+        $dbh = get_database_connection();
+        generate_page_header("My forum", $dbh);
 ?>
 <h2> List of threads </h2>
 <table style="width: 70%" >
 <?php
 try {
-        $dbh = get_database_connection();
         $section = new ForumSection($dbh);
 	if (($stmt = $section->get_all_threads())) {
 	        while($row = $stmt->fetch()) {

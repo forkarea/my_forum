@@ -36,7 +36,7 @@
                 $display_form = true;
         }
 
-        generate_page_header("My forum - add a new user");
+        generate_page_header("My forum - add a new user", $dbh);
 ?>
 
 <?php if ($display_form) { 
