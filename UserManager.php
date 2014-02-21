@@ -104,10 +104,30 @@ if (PHP_VERSION_ID < 50500) {
                                 return NULL;
                         }
 
-                        return new User($new_user_id, $login, $hashed_password, $time);
+                        return User::construct($new_user_id, $login, $hashed_password, $time);
                 }
 
                 public function get_last_error() {
                         return $this->error;
+                }
+
+                public function get_logged_in_user($dbh) {
+                        if (!isset($_COOKIE['login']) || !isset($_COOKIE['login_cookie'])) {
+                                return NULL; 
+                        }
+
+                        try {
+
+                                $stmt = $dbh->prepare("select * from users where login = :login AND login_token = :login_token");
+                                $stmt->bindParam(":login", $_COOKIE['login']);
+                                $stmt->bindParam(":login_token", $_COOKIE['login_cookie']);
+                                $stmt->execute();
+                                $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+                                $user = $stmt->fetch();
+
+                        } catch (PDOException $ex) {
+                                return NULL;
+                        }
+                        return $user;
                 }
         };

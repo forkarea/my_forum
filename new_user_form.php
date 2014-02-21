@@ -20,7 +20,13 @@
                         $ret = $um->get_last_error();
                         $display_form = true;
                 } else {
-                        $display_form = false;
+                        $r = $user->create_login_cookie($dbh);
+                        if ($r !== true) {
+                                $ret['error'] = $r;
+                                $display_form = true;
+                        } else {
+                                $display_form = false;
+                        }
                 }
         } else {
                 $display_form = true;
