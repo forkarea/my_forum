@@ -1,6 +1,8 @@
 <?php
 try {
         include_once "common_functions.php";
+        include_once "database_connection.php";
+        include_once "page_header.php";
 
         $error = NULL;
         $name = "";
@@ -33,7 +35,6 @@ try {
                 } else if ($content_length > 9990) {
                         $contents_error_msg = "The message is too long!";
                 } else {
-                        include "database_connection.php";
                         include_once "forum_section_class.php";
                         $dbh = get_database_connection();
                         
@@ -54,7 +55,6 @@ try {
         $error = "Database error";
 }
 
-        include_once "page_header.php";
         generate_page_header("My forum - Create a new thread");
 ?>
 
