@@ -45,7 +45,7 @@ if (PHP_VERSION_ID < 50500) {
                                         $stmt->execute();
 
                                         $row = $stmt->fetch();
-                                        if ($row != NULL) {
+                                        if ($row !== NULL) {
                                                 $ret['login_error'] = "The user login already exists";
                                                 $ok = false;
                                         }

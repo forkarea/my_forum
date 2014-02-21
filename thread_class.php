@@ -29,7 +29,7 @@
                         //we really need string length in bytes
                         //because the array column is of type varbinary
                         $text_length = strlen($text);
-                        if ($text_length == 0) {
+                        if ($text_length === 0) {
                                 $this->error_msg = "The message cannot be empty!";
                                 return false;
                         } else if ($text_length > 9990) {

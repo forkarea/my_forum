@@ -30,7 +30,7 @@ try {
                         $thread_name_error_msg = "Please write the thread name!";
                 } else if ($name_length > 950) {
                         $thread_name_error_msg = "The thread name is too long!";
-                } else if ($content_length == 0) {
+                } else if ($content_length === 0) {
                         $contents_error_msg = "Please write the message contents!";
                 } else if ($content_length > 9990) {
                         $contents_error_msg = "The message is too long!";
