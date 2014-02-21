@@ -14,7 +14,7 @@
 			$stmt->bindParam(':time', current_date_for_db());
 		        if($stmt->execute()) {
 			        $new_thread_id = $this->dbh->lastInsertId();
-			        return new ForumThread($new_thread_id);
+			        return new ForumThread($this->dbh, $new_thread_id);
 		        } else {
 		        	return NULL;
 		        }

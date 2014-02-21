@@ -9,8 +9,6 @@ function get_database_connection()
                         die("Cannot connect to the database");
 
                 $dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-		//$dbh->query ('SET NAMES utf8');
-		//$dbh->query ('SET CHARACTER_SET utf8_unicode_ci');
 
                 return $dbh;
 

@@ -2,9 +2,11 @@
 	class ForumThread {
 		private $thread_id = NULL;
                 private $error_msg = NULL;
+                private $dbh = NULL;
 
-		public function __construct($thread_id_in) {
+		public function __construct($dbh, $thread_id_in) {
 			$this->thread_id = $thread_id_in;
+                        $this->dbh = $dbh;
 			//echo 'creating thread';
 			//echo $thread_id;
 		}
@@ -13,8 +15,8 @@
 			return $this->thread_id;
 		}
 		
-		public function get_name( $dbh ) {
-		        $stmt = $dbh->prepare('SELECT name FROM threads WHERE id=:thread_id');
+		public function get_name() {
+		        $stmt = $this->dbh->prepare('SELECT name FROM threads WHERE id=:thread_id');
 			$stmt->bindParam(':thread_id', $this->thread_id);
 			if ($stmt->execute()) {
 				$row = $stmt->fetch();
@@ -25,7 +27,7 @@
 			}
 		}
 		
-		public function add_post( $dbh, $text ) {
+		public function add_post($text ) {
                         //we really need string length in bytes
                         //because the array column is of type varbinary
                         $text_length = strlen($text);
@@ -42,7 +44,7 @@
                                 return false;
                         }
 
-			$stmt = $dbh->prepare('insert into posts (text, thread_id, time) values (:text, :thread_id, :time)');
+			$stmt = $this->dbh->prepare('insert into posts (text, thread_id, time) values (:text, :thread_id, :time)');
 			$stmt->bindParam(':text', $text);
 			$stmt->bindParam(':thread_id', $this->thread_id);
 			$stmt->bindParam(':time', date('Y-m-d G:i:s'));
@@ -53,9 +55,9 @@
 			}
 		}
 		
-		public function get_all_posts( $dbh ) {
+		public function get_all_posts() {
                         try {
-                                $stmt = $dbh->prepare('SELECT text, time FROM posts WHERE thread_id=:thread_id');
+                                $stmt = $this->dbh->prepare('SELECT text, time FROM posts WHERE thread_id=:thread_id');
                                 $stmt->bindParam(':thread_id', $this->thread_id);
                                 if ($stmt->execute())
                                         return $stmt;

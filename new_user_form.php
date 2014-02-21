@@ -10,8 +10,8 @@
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
         
-        $um = new UserManager();
-        if ($um->get_logged_in_user($dbh) !== NULL)
+        $um = new UserManager($dbh);
+        if ($um->get_logged_in_user() !== NULL)
                 my_redirect('/');
 
 	if (array_key_exists('login', $_POST)) {
@@ -19,12 +19,12 @@
                 $password = sanitize_string_input($_POST['password']);
                 $password_repeat = sanitize_string_input($_POST['password_repeat']);
 
-                $user = $um->create_user($dbh, $login, $password, $password_repeat);
+                $user = $um->create_user($login, $password, $password_repeat);
                 if ($user === NULL) {
                         $ret = $um->get_last_error();
                         $display_form = true;
                 } else {
-                        $r = $user->create_login_cookie($dbh);
+                        $r = $user->create_login_cookie();
                         if ($r !== true) {
                                 $ret['error'] = $r;
                                 $display_form = true;

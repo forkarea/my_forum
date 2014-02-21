@@ -41,7 +41,7 @@ try {
                         $section = new ForumSection($dbh);
                         $new_thread = $section->add_thread($name);
                         if ($new_thread !== NULL) {
-                                if ($new_thread->add_post($dbh, $contents)) {
+                                if ($new_thread->add_post($contents)) {
                                         my_redirect('show_thread.php?thread_id='.$new_thread->get_id());
                                 } else {
                                         $error = "Cannot add post to the thread";

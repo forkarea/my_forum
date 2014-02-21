@@ -20,8 +20,8 @@
                 echo '<h1>My forum</h1>';
 
                 if ($dbh !== NULL) {
-                        $um = new UserManager();
-                        $u = $um->get_logged_in_user($dbh);
+                        $um = new UserManager($dbh);
+                        $u = $um->get_logged_in_user();
                         if ($u !== NULL) {
                                 echo "<h2>Welcome, {$u->login}</h2>";
                         }

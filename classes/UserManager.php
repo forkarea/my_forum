@@ -11,6 +11,11 @@ if (PHP_VERSION_ID < 50500) {
 
         class UserManager {
                 private $error = NULL;
+                private $dbh = NULL;
+
+                public function __construct($dbh) {
+                        $this->dbh = $dbh;
+                }
 
                 public static function get_empty_error_state() {
                         return array('login_error' => NULL, 
@@ -19,7 +24,7 @@ if (PHP_VERSION_ID < 50500) {
                                          'error' => NULL);
                 }
 
-                private function check_new_user_parameters($dbh, $login, $password, $password_repeat) {
+                private function check_new_user_parameters($login, $password, $password_repeat) {
                         $ret = $this->get_empty_error_state();
                         $ok = true;
 
@@ -39,7 +44,7 @@ if (PHP_VERSION_ID < 50500) {
                                 $ok = false;
                         } else {
                                 try {
-                                        $stmt = $dbh->prepare("SELECT user_id FROM users WHERE login=:login");
+                                        $stmt = $this->dbh->prepare("SELECT user_id FROM users WHERE login=:login");
                                         $stmt->bindParam(":login", $login);
                                         $stmt->execute();
 
@@ -71,8 +76,8 @@ if (PHP_VERSION_ID < 50500) {
                         return NULL;
                 }
 
-                public function create_user($dbh, $login, $password, $password_repeat) {
-                        $ret = $this->check_new_user_parameters($dbh, $login, $password, $password_repeat);
+                public function create_user($login, $password, $password_repeat) {
+                        $ret = $this->check_new_user_parameters($login, $password, $password_repeat);
                         if (!is_null($ret)) {
                                 $this->error = $ret;
                                 return NULL;
@@ -90,39 +95,39 @@ if (PHP_VERSION_ID < 50500) {
                         } 
 
                         try {
-                                $stmt = $dbh->prepare("insert into users (login, password_hash, time) values (:login, :password_hash, :time)");
+                                $stmt = $this->dbh->prepare("insert into users (login, password_hash, time) values (:login, :password_hash, :time)");
                                 $stmt->bindParam(":login", $login);
                                 $stmt->bindParam(":password_hash", $hashed_password);
                                 $time = current_date_for_db();
                                 $stmt->bindParam(":time", $time);
                                 $stmt->execute();
 
-                                $new_user_id = $dbh->lastInsertId();
+                                $new_user_id = $this->dbh->lastInsertId();
                         } catch (PDOException $ex) {
                                 $ret['login_error'] = "Cannot create user in the database.";
                                 $this->error = $ret;
                                 return NULL;
                         }
 
-                        return User::construct($new_user_id, $login, $hashed_password, $time);
+                        return User::construct($dbh, $new_user_id, $login, $hashed_password, $time);
                 }
 
                 public function get_last_error() {
                         return $this->error;
                 }
 
-                public function get_logged_in_user($dbh) {
+                public function get_logged_in_user() {
                         if (!isset($_COOKIE['login']) || !isset($_COOKIE['login_cookie'])) {
                                 return NULL; 
                         }
 
                         try {
 
-                                $stmt = $dbh->prepare("select * from users where login = :login AND login_token = :login_token");
+                                $stmt = $this->dbh->prepare("select * from users where login = :login AND login_token = :login_token");
                                 $stmt->bindParam(":login", $_COOKIE['login']);
                                 $stmt->bindParam(":login_token", $_COOKIE['login_cookie']);
                                 $stmt->execute();
-                                $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+                                $stmt->setFetchMode(PDO::FETCH_CLASS, 'User', array($this->dbh));
                                 $user = $stmt->fetch();
 
                         } catch (PDOException $ex) {

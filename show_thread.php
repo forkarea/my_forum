@@ -7,13 +7,13 @@
         $thread_id = sanitize_nonzero_integer_input($_REQUEST['thread_id'], 'threadlist.php');
 
         $dbh = get_database_connection();
-        $thread = new ForumThread($thread_id);
+        $thread = new ForumThread($dbh, $thread_id);
 
         $text_error = NULL;
         if (array_key_exists('text', $_POST)) {
                 $text = sanitize_string_input($_POST['text']);
 
-                if (!$thread->add_post($dbh, $text)) {
+                if (!$thread->add_post($text)) {
                         $text_error = $thread->get_last_error();       
                 };
         };
@@ -24,7 +24,7 @@
                 my_redirect('show_thread.php?thread_id='.$thread_id);
         }
 
-        $thread_name = $thread->get_name($dbh);
+        $thread_name = $thread->get_name();
         if ($thread_name === NULL) {
                 $thread_name = "";
         }
@@ -36,7 +36,7 @@
                 <?php echo escape_str_in_usual_html_pl($thread_name); ?>
         </h1>
 <?php
-        $stmt = $thread->get_all_posts($dbh);
+        $stmt = $thread->get_all_posts();
         if (!is_null($stmt)) {
                 while($row = $stmt->fetch()) {
                         echo '<tr><td style="border:1px solid black; padding:10px">';

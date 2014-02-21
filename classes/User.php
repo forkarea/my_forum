@@ -11,11 +11,15 @@ if (PHP_VERSION_ID < 50500) {
                 public $login;
                 public $password_hash;
                 public $creation_date;
+                public $dbh;
 
+                public function __construct($dbh) {
+                        $this->dbh = $dbh;
+                }
                 //PDO::FETCH_CLASS mode suggests a non-parametric constructor
                 //Therefore easy to use method for filling all fields requires a separate function
-                public static function construct ($user_id, $login, $password_hash, $creation_date) {
-                        $u = new User();
+                public static function construct ($dbh, $user_id, $login, $password_hash, $creation_date) {
+                        $u = new User($dbh);
                         $u->user_id = $user_id;
                         $u->login = $login;
                         $u->password_hash = $password_hash;
@@ -23,14 +27,14 @@ if (PHP_VERSION_ID < 50500) {
                         return $u;
                 }
 
-                public function create_login_cookie ($dbh) {
+                public function create_login_cookie () {
                         var_dump($this);
                         var_dump($_COOKIE);
                         try {
                                 $login_token = openssl_random_pseudo_bytes(10);
                                 $login_token = base64_encode($login_token);
                                 
-                                $stmt = $dbh->prepare("update users set login_token = :login_token where user_id = :id");
+                                $stmt = $this->dbh->prepare("update users set login_token = :login_token where user_id = :id");
                                 $stmt->bindParam(":login_token", $login_token);
                                 $stmt->bindParam(":id", $this->user_id);
                                 if (!$stmt->execute())
