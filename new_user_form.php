@@ -6,15 +6,19 @@
         include_once "UserManager.php";
 
         $ret = UserManager::get_empty_error_state();
+        $dbh = get_database_connection();
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+        
+        $um = new UserManager();
+        if ($um->get_logged_in_user($dbh) !== NULL)
+                my_redirect('/');
+
 	if (array_key_exists('login', $_POST)) {
                 $login = sanitize_string_input($_POST['login']);
                 $password = sanitize_string_input($_POST['password']);
                 $password_repeat = sanitize_string_input($_POST['password_repeat']);
 
-                $dbh = get_database_connection();
-                $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-                $um = new UserManager();
                 $user = $um->create_user($dbh, $login, $password, $password_repeat);
                 if ($user === NULL) {
                         $ret = $um->get_last_error();
