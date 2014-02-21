@@ -80,7 +80,8 @@ if (PHP_VERSION_ID < 50500) {
                         $ret = $this->get_empty_error_state();
 
                         //PHP manual suggests to store hashes in a column 255 chars wide 
-                        $hashed_password = password_hash($password, PASSWORD_DEFAULT); 
+                        $options = array( 'cost' => 11 );
+                        $hashed_password = password_hash($password, PASSWORD_DEFAULT, $options); 
                         if ($hashed_password === FALSE) {
                                 $ret['error'] = "Cannot create password hash!";
                                 $this->error =  $ret;
