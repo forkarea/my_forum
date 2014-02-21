@@ -1,8 +1,8 @@
 <?php
-        include_once "common_functions.php";
-        include_once "database_connection.php";
-        include_once "user_class.php";
-        include_once "UserManager.php";
+        include_once "./common_functions.php";
+        include_once "./database_connection.php";
+        include_once "./classes/User.php";
+        include_once "./classes/UserManager.php";
 
         function generate_page_header($title, $dbh = NULL)
         {

@@ -1,6 +1,6 @@
 <?php
-	include_once "thread_class.php";
-        include_once "database_connection.php";
+	include_once "./classes/ForumThread.php";
+        include_once "./database_connection.php";
 
 	class ForumSection {
 		private $dbh;

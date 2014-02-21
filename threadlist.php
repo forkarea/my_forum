@@ -1,9 +1,9 @@
 <?php
-        include_once "common_functions.php";
-        include_once "page_header.php";
+        include_once "./common_functions.php";
+        include_once "./page_header.php";
 
-        include_once "database_connection.php";
-        include_once "forum_section_class.php";
+        include_once "./database_connection.php";
+        include_once "./classes/ForumSection.php";
 
         $dbh = get_database_connection();
         generate_page_header("My forum", $dbh);

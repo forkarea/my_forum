@@ -1,9 +1,9 @@
 <?php
-include_once "database_connection.php";
-include_once "common_functions.php";
+include_once "./database_connection.php";
+include_once "./common_functions.php";
 if (PHP_VERSION_ID < 50500) {
         //fallback for functions unavailable in PHP <5.5
-        include_once "password_compat/lib/password.php";
+        include_once "./password_compat/lib/password.php";
 }
 
         class User {
