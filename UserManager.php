@@ -33,10 +33,9 @@ if (PHP_VERSION_ID < 50500) {
                         } else if (!is_valid_utf8($login)) {
                                $ret['login_error'] = "The user login is not a valid UTF-8 string"; 
                                $ok = false;
-                       //check for allowed characters in the user login
-                       //allowed are: Unicode letters, digits and
-                        } else if (preg_match('/^(\p{L}|[-0-9_])*$/u', $login) !== 1) {
-                                $ret['login_error'] = "The user login contains invalid characters (only letters (including multilingual), digits, hyphen and underscore allowed).";
+                        //check for allowed characters in the user login
+                        } else if (preg_match('/^(\p{L}|[-0-9._])*$/u', $login) !== 1) {
+                                $ret['login_error'] = "The user login contains invalid characters (only letters (including multilingual), digits, hyphen, underscore and dot allowed).";
                                 $ok = false;
                         } else {
                                 try {
