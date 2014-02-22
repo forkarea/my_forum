@@ -28,8 +28,6 @@ if (PHP_VERSION_ID < 50500) {
                 }
 
                 public function create_login_cookie () {
-                        var_dump($this);
-                        var_dump($_COOKIE);
                         try {
                                 $login_token = openssl_random_pseudo_bytes(10);
                                 $login_token = base64_encode($login_token);
@@ -51,8 +49,6 @@ if (PHP_VERSION_ID < 50500) {
                         if (!$r2) {
                                 return "Cannot set login_cookie cookie.";
                         }
-                        
-                        //var_dump($this);
 
                         return $r1 && $r2; 
                 }
