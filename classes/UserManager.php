@@ -46,10 +46,10 @@ if (PHP_VERSION_ID < 50500) {
                                 try {
                                         $stmt = $this->dbh->prepare("SELECT user_id FROM users WHERE login=:login");
                                         $stmt->bindParam(":login", $login);
-                                        $stmt->execute();
+                                        $r = $stmt->execute();
 
                                         $row = $stmt->fetch();
-                                        if ($row !== NULL) {
+                                        if ($row !== false) {
                                                 $ret['login_error'] = "The user login already exists";
                                                 $ok = false;
                                         }
@@ -109,7 +109,7 @@ if (PHP_VERSION_ID < 50500) {
                                 return NULL;
                         }
 
-                        return User::construct($dbh, $new_user_id, $login, $hashed_password, $time);
+                        return User::construct($this->dbh, $new_user_id, $login, $hashed_password, $time);
                 }
 
                 public function get_last_error() {
