@@ -13,6 +13,9 @@ if (PHP_VERSION_ID < 50500) {
                 public $creation_date;
                 public $dbh;
 
+                const USERNAME_COOKIE_NAME = "login_username";
+                const LOGIN_SECRET_COOKIE_NAME = "login_secret";
+
                 public function __construct($dbh) {
                         $this->dbh = $dbh;
                 }
@@ -40,11 +43,11 @@ if (PHP_VERSION_ID < 50500) {
                         } catch (PDOException $ex) {
                                 return "Cannot connect to database";
                         }                    
-                        $r1 = setcookie("login", $this->login, time() + 30*24*3600, '/', NULL, FALSE, TRUE);
+                        $r1 = setcookie(self::USERNAME_COOKIE_NAME , $this->login, time() + 30*24*3600, '/', NULL, FALSE, TRUE);
                         if (!$r1) {
                                 return "Cannot set login cookie.";
                         }
-                        $r2 = setcookie("login_cookie", $login_token, time() + 30*24*3600, '/', NULL, FALSE, TRUE);
+                        $r2 = setcookie(self::LOGIN_SECRET_COOKIE_NAME, $login_token, time() + 30*24*3600, '/', NULL, FALSE, TRUE);
                         if (!$r2) {
                                 return "Cannot set login_cookie cookie.";
                         }

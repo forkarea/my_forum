@@ -117,14 +117,16 @@ if (PHP_VERSION_ID < 50500) {
                 }
 
                 public function get_logged_in_user() {
-                        if (!isset($_COOKIE['login']) || !isset($_COOKIE['login_cookie'])) {
+                        if (!isset($_COOKIE[User::LOGIN_SECRET_COOKIE_NAME]) || 
+                                        !isset($_COOKIE[User::USERNAME_COOKIE_NAME])) {
                                 return NULL; 
                         }
 
                         try {
                                 $stmt = $this->dbh->prepare("select * from users where login = :login AND login_token = :login_token");
-                                $stmt->bindParam(":login", $_COOKIE['login']);
-                                $stmt->bindParam(":login_token", $_COOKIE['login_cookie']);
+                                $stmt->bindParam(":login", $_COOKIE[User::USERNAME_COOKIE_NAME]);
+                                $stmt->bindParam(":login_token", 
+                                        $_COOKIE[User::LOGIN_SECRET_COOKIE_NAME]);
                                 $stmt->execute();
                                 $stmt->setFetchMode(PDO::FETCH_CLASS, 'User', array($this->dbh));
                                 $user = $stmt->fetch();
