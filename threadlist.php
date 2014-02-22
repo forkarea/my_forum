@@ -5,8 +5,14 @@
         include_once "./database_connection.php";
         include_once "./classes/ForumSection.php";
 
+        $dbh = $um = $user = NULL;
         $dbh = get_database_connection();
-        generate_page_header("My forum", $dbh);
+        $um = new UserManager($dbh);
+        if ($um!= NULL) {
+                $user = $um->get_logged_in_user();
+        }
+
+        generate_page_header_with_user("My forum", $user);
 ?>
 <h2> List of threads </h2>
 <table style="width: 70%" >
@@ -34,8 +40,12 @@ try {
 
 </table>
 <a href="new_thread.php">Create a new thread</a>
+<?php if ($user === NULL) { ?>
 <a href="new_user_form.php">Sign up</a>
 <a href="login_form.php">Log in</a>
+<?php } else { ?>
+<a href="logout.php">Log out</a>
+<?php } ?>
 
 </body>
 </html>

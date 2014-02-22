@@ -11,7 +11,9 @@
         
         
         $um = new UserManager($dbh);
-        if ($um->get_logged_in_user() !== NULL)
+        $user = $um->get_logged_in_user();
+
+        if ($user !== NULL)
                 my_redirect('/');
 
 	if (array_key_exists('login', $_POST)) {
@@ -33,10 +35,11 @@
                         }
                 }
         } else {
+                $user = NULL;
                 $display_form = true;
         }
 
-        generate_page_header("My forum - add a new user", $dbh);
+        generate_page_header_with_user("My forum - add a new user", $user);
 ?>
 
 <?php if ($display_form) { 

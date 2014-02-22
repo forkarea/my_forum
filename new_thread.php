@@ -10,6 +10,7 @@ try {
         $thread_name_error_msg = NULL;
         $contents_error_msg = NULL;
 
+        $dbh = get_database_connection();
 
 
         if (array_key_exists('name', $_POST)) {
@@ -36,7 +37,6 @@ try {
                         $contents_error_msg = "The message is too long!";
                 } else {
                         include_once "./classes/ForumSection.php";
-                        $dbh = get_database_connection();
                         
                         $section = new ForumSection($dbh);
                         $new_thread = $section->add_thread($name);
@@ -55,7 +55,7 @@ try {
         $error = "Database error";
 }
 
-        generate_page_header("My forum - Create a new thread");
+        generate_page_header("My forum - Create a new thread", $dbh);
 ?>
 
 
