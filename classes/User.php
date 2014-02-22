@@ -51,4 +51,12 @@ if (PHP_VERSION_ID < 50500) {
 
                         return $r1 && $r2; 
                 }
+
+                public function verify_password($password) {
+                        if (!is_string($this->password_hash))
+                                return false;
+                        if (strlen($this->password_hash) == 0)
+                                return false;
+                        return password_verify($password, $this->password_hash);
+                }
         };

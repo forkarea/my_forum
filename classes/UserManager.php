@@ -122,7 +122,6 @@ if (PHP_VERSION_ID < 50500) {
                         }
 
                         try {
-
                                 $stmt = $this->dbh->prepare("select * from users where login = :login AND login_token = :login_token");
                                 $stmt->bindParam(":login", $_COOKIE['login']);
                                 $stmt->bindParam(":login_token", $_COOKIE['login_cookie']);
@@ -134,5 +133,27 @@ if (PHP_VERSION_ID < 50500) {
                                 return NULL;
                         }
                         return $user;
+                }
+
+                public function log_in_user($login, $password) {
+                        try {
+                                $stmt = $this->dbh->prepare("select * from users where login = :login");
+                                $stmt->bindParam(":login", $login);
+                                $stmt->execute();
+                                $stmt->setFetchMode(PDO::FETCH_CLASS, 'User', array($this->dbh));
+                                $user = $stmt->fetch();
+                                if ($user === false || $user === NULL) {
+                                        return NULL;
+                                }
+                                if ($user->verify_password($password) !== true) {
+                                        $user = NULL;
+                                }
+
+                        } catch (PDOException $ex) {
+                                return NULL;
+                        }
+                        return $user;
+
+
                 }
         };
