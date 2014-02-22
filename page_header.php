@@ -9,6 +9,18 @@
         {
                 header('Content-Type: text/html; charset=utf-8');
                 
+                if ($user !== false) {
+                        echo '<p style="text-align: right">'; 
+                        if ($user !== NULL) {
+                                echo "Welcome, {$user->login} ";
+                                echo '<a href="logout.php">Log out</a>';
+                        } else {
+                                echo '<a href="new_user_form.php">Sign up</a> ';
+                                echo '<a href="login_form.php">Log in</a>';
+                        }       
+                        echo '</p>';
+                }
+
                 echo '<!DOCTYPE html>';
                 echo '<html><head><meta charset="utf-8"><title>';
                 if ($title === NULL) {
@@ -20,16 +32,6 @@
                 echo '<body>';
                 echo '<h1>My forum</h1>';
 
-                if ($user !== false) {
-                        if ($user !== NULL) {
-                                echo "<p>Welcome, {$user->login} ";
-                                echo '<a href="logout.php">Log out</a>';
-                                echo "</p>";
-                        } else {
-                                echo '<p><a href="new_user_form.php">Sign up</a>';
-                                echo '<a href="login_form.php">Log in</a></p>';
-                        }       
-                }
         }
 
 
