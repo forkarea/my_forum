@@ -38,6 +38,21 @@
                 return preg_match("//u", $variable) === 1;
         }
         
+        function sanitize_password_input($variable, &$error_message) {
+                if ($variable === NULL) {
+                        my_redirect($target_address);
+                }
+
+                $variable = (string)$variable;
+
+                if (!is_valid_utf8($variable)) {
+                        $error_message = "Password is not a valid UTF-8 string";
+                        return NULL;
+                } 
+                
+                return $variable;
+        }
+
         function sanitize_string_input($variable, $target_address = '/')
         {
                 if ($variable === NULL) {

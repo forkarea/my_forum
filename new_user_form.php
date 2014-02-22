@@ -18,20 +18,25 @@
 
 	if (array_key_exists('login', $_POST)) {
                 $login = sanitize_string_input($_POST['login']);
-                $password = sanitize_string_input($_POST['password']);
-                $password_repeat = sanitize_string_input($_POST['password_repeat']);
+                $password = sanitize_password_input($_POST['password'], $ret['password_error']);
+                $password_repeat = sanitize_password_input($_POST['password_repeat'], $ret['password_repeat_error']);
 
-                $user = $um->create_user($login, $password, $password_repeat);
-                if ($user === NULL) {
-                        $ret = $um->get_last_error();
+
+                if ($password === NULL || $password_repeat === NULL) {
                         $display_form = true;
                 } else {
-                        $r = $user->create_login_cookie();
-                        if ($r !== true) {
-                                $ret['error'] = $r;
+                        $user = $um->create_user($login, $password, $password_repeat);
+                        if ($user === NULL) {
+                                $ret = $um->get_last_error();
                                 $display_form = true;
                         } else {
-                                $display_form = false;
+                                $r = $user->create_login_cookie();
+                                if ($r !== true) {
+                                        $ret['error'] = $r;
+                                        $display_form = true;
+                                } else {
+                                        $display_form = false;
+                                }
                         }
                 }
         } else {

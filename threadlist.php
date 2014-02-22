@@ -10,6 +10,8 @@
         $um = new UserManager($dbh);
         if ($um!= NULL) {
                 $user = $um->get_logged_in_user();
+        } else {
+                $user = NULL;
         }
 
         generate_page_header_with_user("My forum", $user);
