@@ -1,4 +1,3 @@
 - file:///home/mateusz/Studia%209%20semestr/PAI/php_manual/php-chunked-xhtml/pdo.error-handling.html - włączyć globalnie  PDO::ERRMODE_EXCEPTION  i sprawdzać wszędzie wyjątki - poprawić obsługę błędów,
 
-- User.php - wysyłać ciasteczka jako http_only,
 

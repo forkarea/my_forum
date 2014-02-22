@@ -40,12 +40,11 @@ if (PHP_VERSION_ID < 50500) {
                         } catch (PDOException $ex) {
                                 return "Cannot connect to database";
                         }                    
-                        $r1 = setcookie("login", $this->login, time() + 30*24*3600/*, 'localhost', '/', FALSE, TRUE*/);
+                        $r1 = setcookie("login", $this->login, time() + 30*24*3600, '/', NULL, FALSE, TRUE);
                         if (!$r1) {
                                 return "Cannot set login cookie.";
                         }
-                        $r2 = setcookie("login_cookie", $login_token, time() + 30*24*3600/*, 'localhost', '/', FALSE, TRUE*/);
-                        
+                        $r2 = setcookie("login_cookie", $login_token, time() + 30*24*3600, '/', NULL, FALSE, TRUE);
                         if (!$r2) {
                                 return "Cannot set login_cookie cookie.";
                         }
