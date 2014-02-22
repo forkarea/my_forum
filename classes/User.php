@@ -10,7 +10,7 @@ if (PHP_VERSION_ID < 50500) {
                 public $user_id;
                 public $login;
                 public $password_hash;
-                public $creation_date;
+                public $signup_time;
                 public $dbh;
 
                 const USERNAME_COOKIE_NAME = "login_username";
@@ -21,12 +21,12 @@ if (PHP_VERSION_ID < 50500) {
                 }
                 //PDO::FETCH_CLASS mode suggests a non-parametric constructor
                 //Therefore easy to use method for filling all fields requires a separate function
-                public static function construct ($dbh, $user_id, $login, $password_hash, $creation_date) {
+                public static function construct ($dbh, $user_id, $login, $password_hash, $signup_time) {
                         $u = new User($dbh);
                         $u->user_id = $user_id;
                         $u->login = $login;
                         $u->password_hash = $password_hash;
-                        $u->creation_date = $creation_date;
+                        $u->signup_time = $signup_time;
                         return $u;
                 }
 

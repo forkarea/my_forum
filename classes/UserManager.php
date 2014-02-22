@@ -95,7 +95,7 @@ if (PHP_VERSION_ID < 50500) {
                         } 
 
                         try {
-                                $stmt = $this->dbh->prepare("insert into users (login, password_hash, time) values (:login, :password_hash, :time)");
+                                $stmt = $this->dbh->prepare("insert into users (login, password_hash, signup_time) values (:login, :password_hash, :time)");
                                 $stmt->bindParam(":login", $login);
                                 $stmt->bindParam(":password_hash", $hashed_password);
                                 $time = current_date_for_db();
