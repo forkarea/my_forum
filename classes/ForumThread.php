@@ -1,30 +1,34 @@
 <?php 
 	class ForumThread {
-		private $thread_id = NULL;
-                private $error_msg = NULL;
                 private $dbh = NULL;
+                private $error_msg = NULL;
+                
+                public $id = NULL;
+                public $name = NULL;
+                public $time = NULL;
+                public $created_by_user = NULL;
 
-		public function __construct($dbh, $thread_id_in) {
-			$this->thread_id = $thread_id_in;
+                public function __construct($dbh) {
                         $this->dbh = $dbh;
-			//echo 'creating thread';
-			//echo $thread_id;
+                }
+
+		public static function construct($dbh, $id, $name, $time, $created_by_user) {
+                        $thr = new ForumThread($dbh);
+                        $thr->dbh = $dbh;
+
+			$thr->id = $id;
+                        $thr->name = $name;
+                        $thr->time = $time;
+                        $thr->created_by_user = $created_by_user;
+                        return $thr;
 		}
 		
 		public function get_id() {
-			return $this->thread_id;
+			return $this->id;
 		}
 		
 		public function get_name() {
-		        $stmt = $this->dbh->prepare('SELECT name FROM threads WHERE id=:thread_id');
-			$stmt->bindParam(':thread_id', $this->thread_id);
-			if ($stmt->execute()) {
-				$row = $stmt->fetch();
-				$thread_name = $row[0];
-				return $thread_name;
-			} else {
-				return NULL;
-			}
+                        return $this->name;
 		}
 		
 		public function add_post($text ) {
@@ -46,7 +50,7 @@
 
 			$stmt = $this->dbh->prepare('insert into posts (text, thread_id, time) values (:text, :thread_id, :time)');
 			$stmt->bindParam(':text', $text);
-			$stmt->bindParam(':thread_id', $this->thread_id);
+			$stmt->bindParam(':thread_id', $this->id);
 			$stmt->bindParam(':time', date('Y-m-d G:i:s'));
 			if(! $stmt->execute()) {
 				return false;
@@ -58,11 +62,12 @@
 		public function get_all_posts() {
                         try {
                                 $stmt = $this->dbh->prepare('SELECT text, time FROM posts WHERE thread_id=:thread_id');
-                                $stmt->bindParam(':thread_id', $this->thread_id);
-                                if ($stmt->execute())
+                                $stmt->bindParam(':thread_id', $this->id);
+                                if ($stmt->execute()) {
                                         return $stmt;
-                                else
+                                } else {
                                         return NULL;
+                                }
                         } catch (Exception $e) {
                                 $this->error_msg = $e->getMessage();
                         }
@@ -71,5 +76,10 @@
                 //The error message should be save to display in HTML
                 public function get_last_error() {
                         return $this->error_msg;
+                }
+
+                public function get_user_creator() {
+                        $um = new UserManager($this->dbh);
+                        return $um->get_user_by_id($this->created_by_user);
                 }
         };

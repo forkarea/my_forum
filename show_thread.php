@@ -3,11 +3,13 @@
         include_once "./common_functions.php";
         include_once "./database_connection.php";
         include_once "./classes/ForumThread.php";
+        include_once "./classes/ForumSection.php";
 
         $thread_id = sanitize_nonzero_integer_input($_REQUEST['thread_id'], 'threadlist.php');
 
         $dbh = get_database_connection();
-        $thread = new ForumThread($dbh, $thread_id);
+        $section = new ForumSection($dbh);
+        $thread = $section->get_thread($thread_id);
 
         $text_error = NULL;
         if (array_key_exists('text', $_POST)) {
@@ -25,16 +27,24 @@
         }
 
         $thread_name = $thread->get_name();
-        if ($thread_name === NULL) {
-                $thread_name = "";
-        }
         
         generate_page_header(escape_str_in_usual_html_pl($thread_name), $dbh);
 ?>
-<table style="width: 70%">
-        <h1> 
+        <h2> 
                 <?php echo escape_str_in_usual_html_pl($thread_name); ?>
-        </h1>
+        </h2>
+        <p> Created
+                <?php 
+                        $thread_creator = $thread->get_user_creator();
+                        if (!is_null($thread_creator)) {
+                                echo "by ".$thread_creator->login; 
+                        }
+                ?>
+                on
+                <?php echo $thread->time ?>
+        </p> 
+
+<table style="width: 70%">
 <?php
         $stmt = $thread->get_all_posts();
         if (!is_null($stmt)) {

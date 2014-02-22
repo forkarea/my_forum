@@ -3,6 +3,7 @@ try {
         include_once "./common_functions.php";
         include_once "./database_connection.php";
         include_once "./page_header.php";
+        include_once "./classes/UserManager.php";
 
         $error = NULL;
         $name = "";
@@ -11,9 +12,14 @@ try {
         $contents_error_msg = NULL;
 
         $dbh = get_database_connection();
+        $um = new UserManager($dbh);
+        $user = $um->get_logged_in_user();
 
+        if ($user === NULL) {
+                $error = "You are not currently logged in";
+        }
 
-        if (array_key_exists('name', $_POST)) {
+        if ($user !== NULL && array_key_exists('name', $_POST)) {
         //INPUT VALIDATION
                 $name = sanitize_string_input($_POST['name']);
                 $contents = sanitize_string_input($_POST['contents']);        
@@ -39,7 +45,7 @@ try {
                         include_once "./classes/ForumSection.php";
                         
                         $section = new ForumSection($dbh);
-                        $new_thread = $section->add_thread($name);
+                        $new_thread = $section->add_thread($name, $user);
                         if ($new_thread !== NULL) {
                                 if ($new_thread->add_post($contents)) {
                                         my_redirect('show_thread.php?thread_id='.$new_thread->get_id());

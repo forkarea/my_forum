@@ -116,6 +116,20 @@ if (PHP_VERSION_ID < 50500) {
                         return $this->error;
                 }
 
+                public function get_user_by_id($user_id) {
+                        try {
+                                $stmt = $this->dbh->prepare("select * from users where user_id = :user_id");
+                                $stmt->bindParam(":user_id", $user_id);
+                                $stmt->execute();
+                                $user = $stmt->fetchObject("User", array($this->dbh));
+                                if ($user === false) {
+                                        return NULL;
+                                }
+                        } catch (PDOException $ex) {
+                                return NULL;
+                        }
+                        return $user;
+                }
                 public function get_logged_in_user() {
                         if (!isset($_COOKIE[User::LOGIN_SECRET_COOKIE_NAME]) || 
                                         !isset($_COOKIE[User::USERNAME_COOKIE_NAME])) {
