@@ -4,6 +4,7 @@ try {
         include_once "./database_connection.php";
         include_once "./page_header.php";
         include_once "./classes/UserManager.php";
+        include_once "./classes/ForumSection.php";
 
         $error = NULL;
         $name = "";
@@ -27,33 +28,14 @@ try {
                 $_GET=NULL;
         //END OF INPUT VALIDATION
 
-                
-                //we have to count the length in bytes,
-                //because the DB column is of varbinary type
-                //to allow for easy storing of Unicode characters
-                $name_length = strlen($name);
-                $content_length = strlen($contents);
-                if ($name_length === 0) {
-                        $thread_name_error_msg = "Please write the thread name!";
-                } else if ($name_length > 950) {
-                        $thread_name_error_msg = "The thread name is too long!";
-                } else if ($content_length === 0) {
-                        $contents_error_msg = "Please write the message contents!";
-                } else if ($content_length > 9990) {
-                        $contents_error_msg = "The message is too long!";
-                } else {
-                        include_once "./classes/ForumSection.php";
-                        
-                        $section = new ForumSection($dbh);
-                        $new_thread = $section->add_thread($name, $user);
-                        if ($new_thread !== NULL) {
-                                if ($new_thread->add_post($contents)) {
-                                        my_redirect('show_thread.php?thread_id='.$new_thread->get_id());
-                                } else {
-                                        $error = "Cannot add post to the thread";
+                $post = ForumPost::create_as_new($dbh, $contents, $user, $contents_error_msg);
+                $thread = ForumThread::create_as_new($dbh, $name, $user, $thread_name_error_msg);
+                if ($post !== null && $thread !== null) {
+                        if ($thread->persist($thread_name_error_msg)) {
+                                $post->thread_id = $thread->id;
+                                if ($post->persist($contents_error_msg)) {
+                                        my_redirect('show_thread.php?thread_id='.$thread->get_id());
                                 }
-                        } else {
-                                $error = "Cannot create the thread!";
                         }
                 }
         }
@@ -80,10 +62,7 @@ try {
                 value="<?php echo escape_str_in_usual_html_pl($name) ?>">
         </p>
         <?php  if ($contents_error_msg !== NULL) echo "<p>$contents_error_msg</p>" ?>
-        <p><textarea rows="5" cols="100" name="contents" maxlength="9990" 
-                        value="<?php echo escape_str_in_usual_html_pl($contents) ?>">
-           </textarea>
-        </p>
+        <p><textarea rows="5" cols="100" name="contents" maxlength="9990"><?php echo escape_str_in_usual_html_pl($contents) ?></textarea></p>
         <p><input type="submit" value="Submit a new thread"></p>
 </form>
 <form action="threadlist.php" method="get">

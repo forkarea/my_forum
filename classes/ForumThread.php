@@ -1,4 +1,6 @@
 <?php 
+        include_once "./classes/ForumPost.php";
+
 	class ForumThread {
                 private $dbh = NULL;
                 private $error_msg = NULL;
@@ -10,6 +12,39 @@
 
                 public function __construct($dbh) {
                         $this->dbh = $dbh;
+                }
+
+                public static function create_as_new($dbh, $name, $user, &$error_msg) {
+                        $name_length = strlen($name);
+                        if ($name_length === 0) {
+                                $error_msg = "Please write the thread name!";
+                                return null;
+                        } else if ($name_length > 950) {
+                                $error_msg = "The thread name is too long!";
+                                return null;
+                        } 
+
+                        $thr = new ForumThread($dbh);
+                        $thr->dbh = $dbh;
+
+			$thr->id = null;
+                        $thr->name = $name;
+                        $thr->time = current_date_for_db();
+                        $thr->created_by_user = $user->user_id;
+                        return $thr;
+                }
+
+                public function persist(&$error_msg) {
+		        $stmt = $this->dbh->prepare('insert into threads (name, time, created_by_user) values (:text, :time, :user_id)');
+		        $stmt->bindParam(':text', $this->name);
+			$stmt->bindParam(':time', $this->time);
+			$stmt->bindParam(':user_id', $this->created_by_user);
+		        if($stmt->execute()) {
+			        $this->id = $this->dbh->lastInsertId();
+                                return true;
+		        } else {
+		        	return false;
+		        }
                 }
 
 		public static function construct($dbh, $id, $name, $time, $created_by_user) {
@@ -32,36 +67,21 @@
 		}
 		
 		public function add_post($text ) {
-                        //we really need string length in bytes
-                        //because the array column is of type varbinary
-                        $text_length = strlen($text);
-                        if ($text_length === 0) {
-                                $this->error_msg = "The message cannot be empty!";
+                        $post = ForumPost::create_as_new($this->dbh, $text, NULL, $this->error_msg);
+                        if ($post === NULL)
                                 return false;
-                        } else if ($text_length > 9990) {
-                                $this->error_msg = "The message is too long!";
-                                return false;
-                        } 
-                        $match_result = preg_match('|^[[:space:]]*$|', $text);
-                        if ($match_result !== 0) {
-                                $this->error_msg = "Message cannot contain only whitespace!";
-                                return false;
-                        }
-
-			$stmt = $this->dbh->prepare('insert into posts (text, thread_id, time) values (:text, :thread_id, :time)');
-			$stmt->bindParam(':text', $text);
-			$stmt->bindParam(':thread_id', $this->id);
-			$stmt->bindParam(':time', date('Y-m-d G:i:s'));
-			if(! $stmt->execute()) {
-				return false;
-			} else {
-				return true;
-			}
+                        $post->thread_id = $this->id;
+                        return $post->persist($this->error_msg);
 		}
+
+                public function add_post_raw($post) {
+                        $post->thread_id = $this->id;
+                        return $post->persist($this->error_msg);
+                }
 		
 		public function get_all_posts() {
                         try {
-                                $stmt = $this->dbh->prepare('SELECT text, time FROM posts WHERE thread_id=:thread_id');
+                                $stmt = $this->dbh->prepare('SELECT text, creation_time FROM posts WHERE thread_id=:thread_id');
                                 $stmt->bindParam(':thread_id', $this->id);
                                 if ($stmt->execute()) {
                                         return $stmt;

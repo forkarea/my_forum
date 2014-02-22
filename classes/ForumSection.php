@@ -10,17 +10,8 @@
 		}
 	
 		public function add_thread($name, $user) {
-		        $stmt = $this->dbh->prepare('insert into threads (name, time, created_by_user) values (:text, :time, :user_id)');
-		        $stmt->bindParam(':text', $name);
-                        $time = current_date_for_db();
-			$stmt->bindParam(':time', $time);
-			$stmt->bindParam(':user_id', $user->user_id);
-		        if($stmt->execute()) {
-			        $new_thread_id = $this->dbh->lastInsertId();
-			        return ForumThread::construct($this->dbh, $new_thread_id, $name, $time, $user->user_id);
-		        } else {
-		        	return NULL;
-		        }
+                        $thread = ForumThread::create_as_new($this->dbh, $name, $user->user_id, $this->error_msg);
+                        return $thread->persist();
 		}
 		
                 public function get_thread($thread_id) {
