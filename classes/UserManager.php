@@ -155,7 +155,11 @@ if (PHP_VERSION_ID < 50500) {
                                 return NULL;
                         }
                         return $user;
+                }
 
 
+                public function clear_login_cookies() {
+                        setcookie(User::USERNAME_COOKIE_NAME, "", 0);
+                        setcookie(User::LOGIN_SECRET_COOKIE_NAME, "", 0);
                 }
         };
