@@ -33,19 +33,13 @@ try {
                 }
         }
 } catch (PDOException $e) {
-        print "Error!: cannot connect to the database!";
+        echo "Error!: cannot connect to the database!";
 }
 
 ?>
 
 </table>
 <a href="new_thread.php">Create a new thread</a>
-<?php if ($user === NULL) { ?>
-<a href="new_user_form.php">Sign up</a>
-<a href="login_form.php">Log in</a>
-<?php } else { ?>
-<a href="logout.php">Log out</a>
-<?php } ?>
 
 </body>
 </html>

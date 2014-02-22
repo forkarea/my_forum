@@ -5,7 +5,7 @@
         include_once "./classes/UserManager.php";
 
 
-        function generate_page_header_with_user($title, $user)
+        function generate_page_header_with_user($title, $user = false)
         {
                 header('Content-Type: text/html; charset=utf-8');
                 
@@ -20,8 +20,15 @@
                 echo '<body>';
                 echo '<h1>My forum</h1>';
 
-                if ($user !== NULL) {
-                        echo "<h2>Welcome, {$user->login}</h2>";
+                if ($user !== false) {
+                        if ($user !== NULL) {
+                                echo "<p>Welcome, {$user->login} ";
+                                echo '<a href="logout.php">Log out</a>';
+                                echo "</p>";
+                        } else {
+                                echo '<p><a href="new_user_form.php">Sign up</a>';
+                                echo '<a href="login_form.php">Log in</a></p>';
+                        }       
                 }
         }
 
