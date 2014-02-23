@@ -4,9 +4,9 @@
         include_once "./common_functions.php";
         include_once "./database_connection.php";
 
-        use classes\ForumSection;
-        use classes\ForumThread;
-        use classes\ForumPost;
+        use domain\ForumSection;
+        use domain\ForumThread;
+        use domain\ForumPost;
 
         $thread_id = sanitize_nonzero_integer_input($_REQUEST['thread_id'], 'threadlist.php');
 

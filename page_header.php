@@ -2,8 +2,8 @@
         include_once "./common_functions.php";
         include_once "./database_connection.php";
 
-        use classes\UserManager;
-        use classes\User;
+        use domain\UserManager;
+        use domain\User;
 
         function generate_page_header_with_user($title, $user = false)
         {

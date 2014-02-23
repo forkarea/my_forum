@@ -1,5 +1,5 @@
 <?php
-        namespace classes;
+        namespace domain;
         use PDO;
         include_once "./database_connection.php";
 
@@ -19,7 +19,7 @@
 			$stmt->bindParam(':thread_id', $thread_id);
                         
 			if ($stmt->execute()) {
-                                $thread = $stmt->fetchObject("classes\\ForumThread", array($this->dbh));
+                                $thread = $stmt->fetchObject("domain\\ForumThread", array($this->dbh));
 				return $thread;
 			} else {
 				return NULL;

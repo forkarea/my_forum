@@ -1,6 +1,6 @@
 <?php
-        namespace classes;        
-        use classes\User;
+        namespace domain;        
+        use domain\User;
         use PDO;
 include_once "./database_connection.php";
 include_once "./common_functions.php";
@@ -122,7 +122,7 @@ if (PHP_VERSION_ID < 50500) {
                                 $stmt = $this->dbh->prepare("select * from users where user_id = :user_id");
                                 $stmt->bindParam(":user_id", $user_id);
                                 $stmt->execute();
-                                $user = $stmt->fetchObject("classes\User", array($this->dbh));
+                                $user = $stmt->fetchObject("domain\User", array($this->dbh));
                                 if ($user === false) {
                                         return NULL;
                                 }
@@ -143,7 +143,7 @@ if (PHP_VERSION_ID < 50500) {
                                 $stmt->bindParam(":login_token", 
                                         $_COOKIE[User::LOGIN_SECRET_COOKIE_NAME]);
                                 $stmt->execute();
-                                $stmt->setFetchMode(PDO::FETCH_CLASS, 'classes\User', array($this->dbh));
+                                $stmt->setFetchMode(PDO::FETCH_CLASS, 'domain\User', array($this->dbh));
                                 $user = $stmt->fetch();
 
                         } catch (PDOException $ex) {
@@ -157,7 +157,7 @@ if (PHP_VERSION_ID < 50500) {
                                 $stmt = $this->dbh->prepare("select * from users where login = :login");
                                 $stmt->bindParam(":login", $login);
                                 $stmt->execute();
-                                $stmt->setFetchMode(PDO::FETCH_CLASS, 'classes\User', array($this->dbh));
+                                $stmt->setFetchMode(PDO::FETCH_CLASS, 'domain\User', array($this->dbh));
                                 $user = $stmt->fetch();
                                 if ($user === false || $user === NULL) {
                                         return NULL;

@@ -1,5 +1,5 @@
 <?php 
-        namespace classes;
+        namespace domain;
         use PDO;
 
 	class ForumThread {

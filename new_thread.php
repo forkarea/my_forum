@@ -4,8 +4,8 @@ try {
         include_once "./common_functions.php";
         include_once "./database_connection.php";
         include_once "./page_header.php";
-        use classes\UserManager;
-        use classes\ForumSection;
+        use domain\UserManager;
+        use domain\ForumSection;
 
         $error = NULL;
         $name = "";

@@ -1,5 +1,5 @@
 <?php
 include_once 'SplClassLoader/SplClassLoader.php';
-$classLoader = new SplClassLoader('classes', '.'); 
+$classLoader = new SplClassLoader('domain', '.'); 
 $classLoader->register();
  

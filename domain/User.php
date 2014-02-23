@@ -1,5 +1,5 @@
 <?php
-        namespace classes;
+        namespace domain;
         use PDO;
 include_once "./database_connection.php";
 include_once "./common_functions.php";
