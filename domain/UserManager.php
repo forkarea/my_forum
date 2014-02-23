@@ -4,11 +4,6 @@
         use PDO;
 include_once "./common_functions.php";
 
-if (PHP_VERSION_ID < 50500) {
-        //fallback for functions unavailable in PHP <5.5
-        include_once "./password_compat/lib/password.php";
-}
-
         class UserManager {
                 private $error = NULL;
                 private $dbh = NULL;
