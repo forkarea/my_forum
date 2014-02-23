@@ -20,7 +20,7 @@
                         if ($name_length === 0) {
                                 $error_msg = "Please write the thread name!";
                                 return null;
-                        } else if ($name_length > 950) {
+                        } elseif ($name_length > 950) {
                                 $error_msg = "The thread name is too long!";
                                 return null;
                         } 

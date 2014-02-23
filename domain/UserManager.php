@@ -25,14 +25,14 @@
                         if ($login_length < 4) {
                                $ret['login_error'] = "The user login is too short (min. 4 chars)"; 
                                $ok = false;
-                        } else if ($login_length >= 20) {
+                        } elseif ($login_length >= 20) {
                                $ret['login_error'] = "The user login is too long (max. 20 chars)"; 
                                $ok = false;
-                        } else if (!\utils\SecFun::is_valid_utf8($login)) {
+                        } elseif (!\utils\SecFun::is_valid_utf8($login)) {
                                $ret['login_error'] = "The user login is not a valid UTF-8 string"; 
                                $ok = false;
                         //check for allowed characters in the user login
-                        } else if (preg_match('/^(\p{L}|[-0-9._])*$/u', $login) !== 1) {
+                        } elseif (preg_match('/^(\p{L}|[-0-9._])*$/u', $login) !== 1) {
                                 $ret['login_error'] = "The user login contains invalid characters (only letters (including multilingual), digits, hyphen, underscore and dot allowed).";
                                 $ok = false;
                         } else {

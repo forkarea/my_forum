@@ -2,7 +2,8 @@
         namespace domain;
         use PDO;
 
-        class ForumPost {
+        class ForumPost 
+        {
                 public $dbh;
 
                 public $post_id;
@@ -11,11 +12,13 @@
                 public $creation_time;
                 public $created_by_user;
 
-                public function __construct($dbh) {
+                public function __construct($dbh) 
+                {
                         $this->dbh = $dbh;
                 }
 
-                public static function construct($dbh, $post_id, $text, $thread_id, $creation_time, $created_by_user) {
+                public static function construct($dbh, $post_id, $text, $thread_id, $creation_time, $created_by_user)
+                {
                         $r = new ForumPost($dbh);
 
                         $r->post_id = $post_id;
@@ -28,14 +31,15 @@
                 }
                         
 
-                public static function create_as_new($dbh, $text, $user, &$error_msg) {
+                public static function create_as_new($dbh, $text, $user, &$error_msg) 
+                {
                         //we really need string length in bytes
                         //because the array column is of type varbinary
                         $text_length = strlen($text);
                         if ($text_length === 0) {
                                 $error_msg = "The message cannot be empty!";
                                 return null;
-                        } else if ($text_length > 9990) {
+                        } elseif ($text_length > 9990) {
                                 $error_msg = "The message is too long!";
                                 return null;
                         } 
@@ -61,7 +65,8 @@
                 }
 
 
-                public function persist(&$error_msg) {
+                public function persist(&$error_msg) 
+                {
                         try {
                                 $stmt = $this->dbh->prepare('insert into posts (text, thread_id, creation_time, created_by_user) values (:text, :thread_id, :creation_time, :created_by_user)');
                                 $stmt->bindValue(':text', $this->text);
@@ -80,11 +85,5 @@
                                 return false;
                         }
                 }
-
-
-
-
-
-
         };
 

@@ -1,10 +1,10 @@
 <?php
         include_once "./init_classloader.php";
-        include_once "./common_functions.php";
         include_once "./page_header.php";
 
         use domain\User;
         use domain\UserManager;
+        use utility\SecFun;
 
         $ret = UserManager::get_empty_error_state();
         $dbh = utility\DatabaseConnection::getDatabaseConnection();
@@ -13,12 +13,12 @@
         $um = new UserManager($dbh);
         $user = $um->get_logged_in_user();
         if ($user !== NULL)
-                my_redirect('/');
+                SecFun::my_redirect('/');
 
 	if (array_key_exists('login', $_POST)) {
-                $login = sanitize_string_input($_POST['login']);
+                $login = SecFun::sanitize_string_input($_POST['login']);
                 $error = NULL;
-                $password = sanitize_password_input($_POST['password'], $error);
+                $password = SecFun::sanitize_password_input($_POST['password'], $error);
 
                 if ($password !== NULL) {
                         $user = $um->log_in_user($login, $password);
@@ -44,7 +44,7 @@
                         global $ret;
                         global $$name;
                         if (isset($$name))
-                                echo escape_str_in_usual_html_pl($$name, false); 
+                                echo SecFun::escape_str_in_usual_html_pl($$name, false); 
                 }
         } else {
                 function display_old_value($name) {}

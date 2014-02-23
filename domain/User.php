@@ -1,5 +1,6 @@
 <?php
         namespace domain;
+
         use PDO;
 
         class User {

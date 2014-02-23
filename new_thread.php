@@ -6,6 +6,7 @@
         use domain\ForumSection;
         use domain\ForumPost;
         use domain\ForumThread;
+        use utility\SecFun;
 
         $error = NULL;
         $name = "";
@@ -24,8 +25,8 @@ try {
 
         if ($user !== NULL && array_key_exists('name', $_POST)) {
         //INPUT VALIDATION
-                $name = sanitize_string_input($_POST['name']);
-                $contents = sanitize_string_input($_POST['contents']);        
+                $name = SecFun::sanitize_string_input($_POST['name']);
+                $contents = SecFun::sanitize_string_input($_POST['contents']);        
                 $_POST=NULL;
                 $_GET=NULL;
         //END OF INPUT VALIDATION
@@ -61,10 +62,10 @@ try {
 <form action="new_thread.php" method="post" accept-charset="UTF-8">
         <?php  if ($thread_name_error_msg !== NULL) echo "<p>$thread_name_error_msg</p>" ?>
         <p>Name: <input type="text" name="name" maxlength="950" 
-                value="<?php echo escape_str_in_usual_html_pl($name) ?>">
+                value="<?php echo SecFun::escape_str_in_usual_html_pl($name) ?>">
         </p>
         <?php  if ($contents_error_msg !== NULL) echo "<p>$contents_error_msg</p>" ?>
-        <p><textarea rows="5" cols="100" name="contents" maxlength="9990"><?php echo escape_str_in_usual_html_pl($contents) ?></textarea></p>
+        <p><textarea rows="5" cols="100" name="contents" maxlength="9990"><?php echo SecFun::escape_str_in_usual_html_pl($contents) ?></textarea></p>
         <p><input type="submit" value="Submit a new thread"></p>
 </form>
 <form action="threadlist.php" method="get">
