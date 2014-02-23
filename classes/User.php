@@ -1,4 +1,6 @@
 <?php
+        namespace classes;
+        use PDO;
 include_once "./database_connection.php";
 include_once "./common_functions.php";
 if (PHP_VERSION_ID < 50500) {

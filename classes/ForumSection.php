@@ -1,7 +1,7 @@
 <?php
-	include_once "./classes/ForumThread.php";
+        namespace classes;
+        use PDO;
         include_once "./database_connection.php";
-        include_once "./classes/User.php";
 
 	class ForumSection {
 		private $dbh;
@@ -19,7 +19,7 @@
 			$stmt->bindParam(':thread_id', $thread_id);
                         
 			if ($stmt->execute()) {
-                                $thread = $stmt->fetchObject("ForumThread", array($this->dbh));
+                                $thread = $stmt->fetchObject("classes\\ForumThread", array($this->dbh));
 				return $thread;
 			} else {
 				return NULL;

@@ -1,9 +1,11 @@
 <?php
+        include_once './init_classloader.php';
         include_once "./common_functions.php";
         include_once "./page_header.php";
 
         include_once "./database_connection.php";
-        include_once "./classes/ForumSection.php";
+        use classes\ForumSection;
+        use classes\UserManager;
 
         $dbh = $um = $user = NULL;
         $dbh = get_database_connection();

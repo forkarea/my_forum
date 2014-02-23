@@ -1,10 +1,11 @@
 <?php
 try {
+        include_once './init_classloader.php';
         include_once "./common_functions.php";
         include_once "./database_connection.php";
         include_once "./page_header.php";
-        include_once "./classes/UserManager.php";
-        include_once "./classes/ForumSection.php";
+        use classes\UserManager;
+        use classes\ForumSection;
 
         $error = NULL;
         $name = "";

@@ -1,4 +1,6 @@
 <?php
+        namespace classes;
+        use PDO;
         include_once "database_connection.php";
 
         class ForumPost {

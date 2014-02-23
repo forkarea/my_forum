@@ -1,5 +1,6 @@
 <?php 
-        include_once "./classes/ForumPost.php";
+        namespace classes;
+        use PDO;
 
 	class ForumThread {
                 private $dbh = NULL;

@@ -1,9 +1,10 @@
 <?php
+        include_once './init_classloader.php';
         include_once "./common_functions.php";
         include_once "./page_header.php";
         include_once "./database_connection.php";
-        include_once "./classes/User.php";
-        include_once "./classes/UserManager.php";
+        use classes\User;
+        use classes\UserManager;
 
         $ret = UserManager::get_empty_error_state();
         $dbh = get_database_connection();

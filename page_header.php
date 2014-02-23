@@ -1,9 +1,9 @@
 <?php
         include_once "./common_functions.php";
         include_once "./database_connection.php";
-        include_once "./classes/User.php";
-        include_once "./classes/UserManager.php";
 
+        use classes\UserManager;
+        use classes\User;
 
         function generate_page_header_with_user($title, $user = false)
         {

@@ -1,9 +1,12 @@
 <?php
+        include_once "./init_classloader.php";
         include_once "./page_header.php";
         include_once "./common_functions.php";
         include_once "./database_connection.php";
-        include_once "./classes/ForumThread.php";
-        include_once "./classes/ForumSection.php";
+
+        use classes\ForumSection;
+        use classes\ForumThread;
+        use classes\ForumPost;
 
         $thread_id = sanitize_nonzero_integer_input($_REQUEST['thread_id'], 'threadlist.php');
 
