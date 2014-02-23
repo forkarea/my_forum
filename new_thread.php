@@ -1,11 +1,11 @@
 <?php
-try {
         include_once './init_classloader.php';
         include_once "./common_functions.php";
-        include_once "./database_connection.php";
         include_once "./page_header.php";
         use domain\UserManager;
         use domain\ForumSection;
+        use domain\ForumPost;
+        use domain\ForumThread;
 
         $error = NULL;
         $name = "";
@@ -13,7 +13,8 @@ try {
         $thread_name_error_msg = NULL;
         $contents_error_msg = NULL;
 
-        $dbh = get_database_connection();
+try {
+        $dbh = utility\DatabaseConnection::getDatabaseConnection();
         $um = new UserManager($dbh);
         $user = $um->get_logged_in_user();
 

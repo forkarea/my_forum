@@ -1,7 +1,6 @@
 <?php
         namespace domain;
         use PDO;
-include_once "./database_connection.php";
 include_once "./common_functions.php";
 if (PHP_VERSION_ID < 50500) {
         //fallback for functions unavailable in PHP <5.5

@@ -2,7 +2,6 @@
         namespace domain;        
         use domain\User;
         use PDO;
-include_once "./database_connection.php";
 include_once "./common_functions.php";
 
 if (PHP_VERSION_ID < 50500) {
@@ -99,7 +98,7 @@ if (PHP_VERSION_ID < 50500) {
                                 $stmt = $this->dbh->prepare("insert into users (login, password_hash, signup_time) values (:login, :password_hash, :time)");
                                 $stmt->bindParam(":login", $login);
                                 $stmt->bindParam(":password_hash", $hashed_password);
-                                $time = current_date_for_db();
+                                $time = \utility\DatabaseConnection::getCurrentDateForDb();
                                 $stmt->bindParam(":time", $time);
                                 $stmt->execute();
 

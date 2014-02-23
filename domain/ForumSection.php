@@ -1,7 +1,6 @@
 <?php
         namespace domain;
         use PDO;
-        include_once "./database_connection.php";
 
 	class ForumSection {
 		private $dbh;

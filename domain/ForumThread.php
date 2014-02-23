@@ -30,7 +30,7 @@
 
 			$thr->id = null;
                         $thr->name = $name;
-                        $thr->time = current_date_for_db();
+                        $thr->time = \utility\DatabaseConnection::getCurrentDateForDb();
                         $thr->created_by_user = $user->user_id;
                         return $thr;
                 }

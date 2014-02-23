@@ -1,7 +1,7 @@
 <?php
         namespace domain;
         use PDO;
-        include_once "database_connection.php";
+        use utility\DatabaseConnection;
 
         class ForumPost {
                 public $dbh;
@@ -51,7 +51,7 @@
                         $r->post_id = NULL;
                         $r->text = $text;
                         $r->thread_id = NULL;
-                        $r->creation_time = current_date_for_db();
+                        $r->creation_time = DatabaseConnection::getCurrentDateForDb();
                         if ($user === NULL) {
                                 $r->created_by_user = NULL;
                         } else {

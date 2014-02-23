@@ -2,7 +2,6 @@
         include_once "./init_classloader.php";
         include_once "./page_header.php";
         include_once "./common_functions.php";
-        include_once "./database_connection.php";
 
         use domain\ForumSection;
         use domain\ForumThread;
@@ -10,7 +9,7 @@
 
         $thread_id = sanitize_nonzero_integer_input($_REQUEST['thread_id'], 'threadlist.php');
 
-        $dbh = get_database_connection();
+        $dbh = utility\DatabaseConnection::getDatabaseConnection();
         $section = new ForumSection($dbh);
         $thread = $section->get_thread($thread_id);
 

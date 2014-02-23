@@ -2,13 +2,11 @@
         include_once './init_classloader.php';
         include_once "./common_functions.php";
         include_once "./page_header.php";
-
-        include_once "./database_connection.php";
-        use classes\ForumSection;
-        use classes\UserManager;
+        use domain\ForumSection;
+        use domain\UserManager;
 
         $dbh = $um = $user = NULL;
-        $dbh = get_database_connection();
+        $dbh = utility\DatabaseConnection::getDatabaseConnection();
         $um = new UserManager($dbh);
         if ($um!= NULL) {
                 $user = $um->get_logged_in_user();

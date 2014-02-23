@@ -2,12 +2,11 @@
         include_once './init_classloader.php';
         include_once "./common_functions.php";
         include_once "./page_header.php";
-        include_once "./database_connection.php";
         use domain\User;
         use domain\UserManager;
 
         $ret = UserManager::get_empty_error_state();
-        $dbh = get_database_connection();
+        $dbh = utility\DatabaseConnection::getDatabaseConnection();
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
         
