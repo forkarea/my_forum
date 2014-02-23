@@ -1,7 +1,7 @@
 <?php
         include_once './init_classloader.php';
-        include_once "./common_functions.php";
-        include_once "./page_header.php";
+        include_once './common_functions.php';
+        include_once './page_header.php';
         use domain\User;
         use domain\UserManager;
 

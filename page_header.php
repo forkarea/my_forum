@@ -1,5 +1,5 @@
 <?php
-        include_once "./common_functions.php";
+        include_once './common_functions.php';
 
         use domain\UserManager;
         use domain\User;

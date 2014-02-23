@@ -1,6 +1,6 @@
 <?php
-        include_once "./init_classloader.php";
-        include_once "./page_header.php";
+        include_once './init_classloader.php';
+        include_once './page_header.php';
 
         use domain\User;
         use domain\UserManager;

@@ -6,7 +6,7 @@
  *    * you server too much. 10 is a good baseline, and more is good if your servers
  *     * are fast enough.
  *      */
-        include_once "password_compat/lib/password.php";
+        include_once 'password_compat/lib/password.php';
 $timeTarget = 0.2;
 
 $cost = 4;

@@ -79,7 +79,7 @@
                         return $this->name;
 		}
 
-		public function add_post($text )
+		public function add_post($text)
 		{
                         $post = ForumPost::create_as_new($this->dbh, $text, NULL, $this->error_msg);
                         if ($post === NULL)

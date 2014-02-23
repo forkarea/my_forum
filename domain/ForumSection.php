@@ -5,7 +5,7 @@
 	class ForumSection
 	{
 		private $dbh;
-		public function __construct ($dbh)
+		public function __construct($dbh)
 		{
 			$this->dbh = $dbh;
 		}
