@@ -24,6 +24,7 @@
                         $u->login = $login;
                         $u->password_hash = $password_hash;
                         $u->signup_time = $signup_time;
+
                         return $u;
                 }
 

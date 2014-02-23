@@ -73,6 +73,7 @@
                         $ret = $this->check_new_user_parameters($login, $password, $password_repeat);
                         if (!is_null($ret)) {
                                 $this->error = $ret;
+
                                 return NULL;
                         }
 
@@ -84,6 +85,7 @@
                         if ($hashed_password === FALSE) {
                                 $ret['error'] = "Cannot create password hash!";
                                 $this->error =  $ret;
+
                                 return NULL;
                         }
 
@@ -99,6 +101,7 @@
                         } catch (PDOException $ex) {
                                 $ret['login_error'] = "Cannot create user in the database.";
                                 $this->error = $ret;
+
                                 return NULL;
                         }
 
@@ -121,6 +124,7 @@
                         } catch (PDOException $ex) {
                                 return NULL;
                         }
+
                         return $user;
                 }
                 public function get_logged_in_user() {
@@ -141,6 +145,7 @@
                         } catch (PDOException $ex) {
                                 return NULL;
                         }
+
                         return $user;
                 }
 
@@ -161,6 +166,7 @@
                         } catch (PDOException $ex) {
                                 return NULL;
                         }
+
                         return $user;
                 }
 

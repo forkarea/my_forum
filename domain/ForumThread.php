@@ -19,9 +19,11 @@
                         $name_length = strlen($name);
                         if ($name_length === 0) {
                                 $error_msg = "Please write the thread name!";
+
                                 return null;
                         } elseif ($name_length > 950) {
                                 $error_msg = "The thread name is too long!";
+
                                 return null;
                         }
 
@@ -32,6 +34,7 @@
                         $thr->name = $name;
                         $thr->time = \utility\DatabaseConnection::getCurrentDateForDb();
                         $thr->created_by_user = $user->user_id;
+
                         return $thr;
                 }
 
@@ -42,6 +45,7 @@
 			$stmt->bindParam(':user_id', $this->created_by_user);
 		        if($stmt->execute()) {
 			        $this->id = $this->dbh->lastInsertId();
+
                                 return true;
 		        } else {
 		        	return false;
@@ -56,6 +60,7 @@
                         $thr->name = $name;
                         $thr->time = $time;
                         $thr->created_by_user = $created_by_user;
+
                         return $thr;
 		}
 
@@ -72,11 +77,13 @@
                         if ($post === NULL)
                                 return false;
                         $post->thread_id = $this->id;
+
                         return $post->persist($this->error_msg);
 		}
 
                 public function add_post_raw($post) {
                         $post->thread_id = $this->id;
+
                         return $post->persist($this->error_msg);
                 }
 
@@ -101,6 +108,7 @@
 
                 public function get_user_creator() {
                         $um = new UserManager($this->dbh);
+
                         return $um->get_user_by_id($this->created_by_user);
                 }
         };

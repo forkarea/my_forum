@@ -38,14 +38,17 @@
                         $text_length = strlen($text);
                         if ($text_length === 0) {
                                 $error_msg = "The message cannot be empty!";
+
                                 return null;
                         } elseif ($text_length > 9990) {
                                 $error_msg = "The message is too long!";
+
                                 return null;
                         }
                         $match_result = preg_match('|^[[:space:]]*$|', $text);
                         if ($match_result !== 0) {
                                 $error_msg = "Message cannot contain only whitespace!";
+
                                 return null;
                         }
 
@@ -77,11 +80,13 @@
                                         return false;
                                 } else {
                                         $this->post_id = $this->dbh->lastInsertId();
+
                                         return true;
                                 }
                         } catch (PDOException $ex) {
                                 trigger_warning('PDO Error: ' . $ex->getMessage());
                                 $error_msg = "Cannot save the value to database";
+
                                 return false;
                         }
                 }

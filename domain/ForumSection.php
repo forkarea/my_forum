@@ -10,6 +10,7 @@
 
 		public function add_thread($name, $user) {
                         $thread = ForumThread::create_as_new($this->dbh, $name, $user->user_id, $this->error_msg);
+
                         return $thread->persist();
 		}
 
