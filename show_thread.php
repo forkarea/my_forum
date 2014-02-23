@@ -48,7 +48,7 @@
         </h2>
         <p> Created
                 <?php
-                        $thread_creator = $thread->get_user_creator();
+                        $thread_creator = $thread->get_user_creator($um);
                         if (!is_null($thread_creator)) {
                                 echo "by ".$thread_creator->login;
                         }
@@ -66,7 +66,7 @@
                         $time = $post->creation_time;
                         if (!is_null($time)) {
                                 echo $time;
-                                $c_user = $post->get_creator();
+                                $c_user = $post->get_creator($um);
                                 if ($c_user !== NULL) {
                                         echo ' by ' . escape_str_in_usual_html_pl($c_user->login);
                                 }

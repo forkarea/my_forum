@@ -97,9 +97,11 @@
                 }
 
 
-                public function get_creator()
+                public function get_creator($um = NULL)
                 {
-                        $um = new UserManager($this->dbh);
+                        if ($um === NULL) {
+                                $um = new UserManager($this->dbh);
+                        }
                         return $um->get_user_by_id($this->created_by_user);
                 }
 

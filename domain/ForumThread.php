@@ -149,9 +149,11 @@
                         return $this->error_msg;
                 }
 
-                public function get_user_creator()
+                public function get_user_creator($um)
                 {
-                        $um = new UserManager($this->dbh);
+                        if (!is_object($um)) {
+                                $um = new UserManager($this->dbh);
+                        }
 
                         return $um->get_user_by_id($this->created_by_user);
                 }

@@ -6,6 +6,7 @@
         {
                 private $error = NULL;
                 private $dbh = NULL;
+                private $all_received_users = array();
 
                 public function __construct($dbh)
                 {
@@ -120,6 +121,13 @@
 
                 public function get_user_by_id($user_id)
                 {
+                        if (is_null($user_id))
+                                return NULL;
+
+                        if (isset($this->all_received_users[$user_id])) {
+                                return $this->all_received_users[$user_id];
+                        }
+
                         try {
                                 $stmt = $this->dbh->prepare("select * from users where user_id = :user_id");
                                 $stmt->bindParam(":user_id", $user_id);
@@ -132,6 +140,7 @@
                                 return NULL;
                         }
 
+                        $this->all_received_users[$user_id] = $user;
                         return $user;
                 }
                 public function get_logged_in_user()
@@ -157,6 +166,7 @@
                                 return NULL;
                         }
 
+                        $this->all_received_users[$user->user_id] = $user;
                         return $user;
                 }
 

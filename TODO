@@ -3,6 +3,8 @@
 - obrona przed CSRF,
 - transakcje
 - przy ładowaniu http://localhost:12001/show_thread.php?thread_id=58 użytkownik pobierany jest 2x, najpierw jako zalogowany6, następnie jako autor postu / wątku.
+- caching users in UserManager,
+- 
 
 password_verify - sprawdzać czy $password i $hash są stringami, czy $hash nie ma długości 0, 
 password_hash - sprawdzać czy array() jest odpowiednie - zawiera odpowiednie wartości
