@@ -1,7 +1,6 @@
 <?php
         namespace domain;
         use PDO;
-include_once "./common_functions.php";
 
         class User {
                 public $user_id;

@@ -1,4 +1,4 @@
 <?php
-        include_once "./common_functions.php";
-        my_redirect('threadlist.php');
+        include_once "./init_classloader.php";
+        \utility\SecFun\my_redirect('threadlist.php');
 

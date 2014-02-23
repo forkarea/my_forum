@@ -1,8 +1,6 @@
 <?php
         namespace domain;        
-        use domain\User;
         use PDO;
-include_once "./common_functions.php";
 
         class UserManager {
                 private $error = NULL;
@@ -30,7 +28,7 @@ include_once "./common_functions.php";
                         } else if ($login_length >= 20) {
                                $ret['login_error'] = "The user login is too long (max. 20 chars)"; 
                                $ok = false;
-                        } else if (!is_valid_utf8($login)) {
+                        } else if (!\utils\SecFun::is_valid_utf8($login)) {
                                $ret['login_error'] = "The user login is not a valid UTF-8 string"; 
                                $ok = false;
                         //check for allowed characters in the user login
