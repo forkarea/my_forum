@@ -18,7 +18,7 @@ class DatabaseConnection {
                 } catch (PDOException $e) {
                         die('Cannot connect to the database');
                 }
-        }       
+        }
 
         function getCurrentDateForDb()
         {

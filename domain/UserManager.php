@@ -1,5 +1,5 @@
 <?php
-        namespace domain;        
+        namespace domain;
         use PDO;
 
         class UserManager {
@@ -11,7 +11,7 @@
                 }
 
                 public static function get_empty_error_state() {
-                        return array('login_error' => NULL, 
+                        return array('login_error' => NULL,
                                          'password_error' => NULL,
                                          'password_repeat_error' =>NULL,
                                          'error' => NULL);
@@ -23,13 +23,13 @@
 
                         $login_length = mb_strlen($login, "UTF-8");
                         if ($login_length < 4) {
-                               $ret['login_error'] = "The user login is too short (min. 4 chars)"; 
+                               $ret['login_error'] = "The user login is too short (min. 4 chars)";
                                $ok = false;
                         } elseif ($login_length >= 20) {
-                               $ret['login_error'] = "The user login is too long (max. 20 chars)"; 
+                               $ret['login_error'] = "The user login is too long (max. 20 chars)";
                                $ok = false;
                         } elseif (!\utils\SecFun::is_valid_utf8($login)) {
-                               $ret['login_error'] = "The user login is not a valid UTF-8 string"; 
+                               $ret['login_error'] = "The user login is not a valid UTF-8 string";
                                $ok = false;
                         //check for allowed characters in the user login
                         } elseif (preg_match('/^(\p{L}|[-0-9._])*$/u', $login) !== 1) {
@@ -53,14 +53,14 @@
                         }
 
                         if ($password !== $password_repeat) {
-                               $ret['password_repeat_error'] = "The passwords don't match"; 
+                               $ret['password_repeat_error'] = "The passwords don't match";
                                $ok = false;
                         }
 
                         if (strlen($password) < 10) {
                                 $ret['password_error'] = "The password is too short (minimum 10 characters)";
                                $ok = false;
-                        } 
+                        }
 
                         if ($ok !== true) {
                                 return $ret;
@@ -78,14 +78,14 @@
 
                         $ret = $this->get_empty_error_state();
 
-                        //PHP manual suggests to store hashes in a column 255 chars wide 
+                        //PHP manual suggests to store hashes in a column 255 chars wide
                         $options = array( 'cost' => 11 );
-                        $hashed_password = password_hash($password, PASSWORD_DEFAULT, $options); 
+                        $hashed_password = password_hash($password, PASSWORD_DEFAULT, $options);
                         if ($hashed_password === FALSE) {
                                 $ret['error'] = "Cannot create password hash!";
                                 $this->error =  $ret;
                                 return NULL;
-                        } 
+                        }
 
                         try {
                                 $stmt = $this->dbh->prepare("insert into users (login, password_hash, signup_time) values (:login, :password_hash, :time)");
@@ -124,15 +124,15 @@
                         return $user;
                 }
                 public function get_logged_in_user() {
-                        if (!isset($_COOKIE[User::LOGIN_SECRET_COOKIE_NAME]) || 
+                        if (!isset($_COOKIE[User::LOGIN_SECRET_COOKIE_NAME]) ||
                                         !isset($_COOKIE[User::USERNAME_COOKIE_NAME])) {
-                                return NULL; 
+                                return NULL;
                         }
 
                         try {
                                 $stmt = $this->dbh->prepare("select * from users where login = :login AND login_token = :login_token");
                                 $stmt->bindParam(":login", $_COOKIE[User::USERNAME_COOKIE_NAME]);
-                                $stmt->bindParam(":login_token", 
+                                $stmt->bindParam(":login_token",
                                         $_COOKIE[User::LOGIN_SECRET_COOKIE_NAME]);
                                 $stmt->execute();
                                 $stmt->setFetchMode(PDO::FETCH_CLASS, 'domain\User', array($this->dbh));

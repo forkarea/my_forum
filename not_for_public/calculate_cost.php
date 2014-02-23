@@ -7,7 +7,7 @@
  *     * are fast enough.
  *      */
         include_once "password_compat/lib/password.php";
-$timeTarget = 0.2; 
+$timeTarget = 0.2;
 
 $cost = 4;
 do {

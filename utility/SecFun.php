@@ -1,4 +1,4 @@
-<?php   
+<?php
 namespace utility;
 
 class SecFun {
@@ -40,7 +40,7 @@ class SecFun {
         static function is_valid_utf8($variable) {
                 return preg_match("//u", $variable) === 1;
         }
-        
+
         static function sanitize_password_input($variable, &$error_message) {
                 if ($variable === NULL) {
                         my_redirect($target_address);
@@ -51,8 +51,8 @@ class SecFun {
                 if (!is_valid_utf8($variable)) {
                         $error_message = "Password is not a valid UTF-8 string";
                         return NULL;
-                } 
-                
+                }
+
                 return $variable;
         }
 
@@ -61,7 +61,7 @@ class SecFun {
                 if ($variable === NULL) {
                         my_redirect($target_address);
                 }
-                
+
                 $variable = (string)$variable;
 
                 if (is_valid_utf8($variable)) {
@@ -90,7 +90,7 @@ class SecFun {
         static function test_sanitize_string_input()
         {
                 $count = 5000000;
-                $string = str_repeat("\xff", $count); 
+                $string = str_repeat("\xff", $count);
                 $string = sanitize_string_input($string);
                 echo strlen($string); //should be 2*$count
         }
@@ -98,13 +98,13 @@ class SecFun {
         static function escape_str_in_usual_html_pl($variable, $double_encode = true)
         {
                 if (PHP_VERSION_ID < 50400) {
-                        $variable = htmlspecialchars($variable, 
+                        $variable = htmlspecialchars($variable,
                                         ENT_QUOTES, "UTF-8", $double_encode);
                 } else {
-                        $variable = htmlspecialchars($variable, 
+                        $variable = htmlspecialchars($variable,
                                         ENT_QUOTES | ENT_DISALLOWED | ENT_HTML5, "UTF-8", $double_encode);
                 }
-                
+
                 return $variable;
         }
 };

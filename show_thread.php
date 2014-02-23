@@ -18,7 +18,7 @@
                 $text = sanitize_string_input($_POST['text']);
 
                 if (!$thread->add_post($text)) {
-                        $text_error = $thread->get_last_error();       
+                        $text_error = $thread->get_last_error();
                 };
         };
         if (is_null($text_error) && array_key_exists('thread_id', $_POST)) {
@@ -29,22 +29,22 @@
         }
 
         $thread_name = $thread->get_name();
-        
+
         generate_page_header(escape_str_in_usual_html_pl($thread_name), $dbh);
 ?>
-        <h2> 
+        <h2>
                 <?php echo escape_str_in_usual_html_pl($thread_name); ?>
         </h2>
         <p> Created
-                <?php 
+                <?php
                         $thread_creator = $thread->get_user_creator();
                         if (!is_null($thread_creator)) {
-                                echo "by ".$thread_creator->login; 
+                                echo "by ".$thread_creator->login;
                         }
                 ?>
                 on
                 <?php echo $thread->time ?>
-        </p> 
+        </p>
 
 <table style="width: 70%">
 <?php
@@ -60,12 +60,12 @@
                         echo escape_str_in_usual_html_pl($row[0]);
                         echo '</td></tr>';
                 }
-        } 
+        }
 ?>
 </table>
 <h2> Add a new post </h2>
 	<form action="show_thread.php" method="post" accept-charset="UTF-8">
-        <?php if ($text_error !== NULL) echo "<p>$text_error</p>" ?> 
+        <?php if ($text_error !== NULL) echo "<p>$text_error</p>" ?>
         <p><textarea rows="5" cols="20" name="text"><?php if ($text_error !== NULL) echo escape_str_in_usual_html_pl($text) ?></textarea></p>
 	<input type="hidden" name="thread_id" value="<?php echo $thread_id ?>">
 	<p><input type="submit" value="Submit"></p>

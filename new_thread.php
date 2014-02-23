@@ -26,7 +26,7 @@ try {
         if ($user !== NULL && array_key_exists('name', $_POST)) {
         //INPUT VALIDATION
                 $name = SecFun::sanitize_string_input($_POST['name']);
-                $contents = SecFun::sanitize_string_input($_POST['contents']);        
+                $contents = SecFun::sanitize_string_input($_POST['contents']);
                 $_POST=NULL;
                 $_GET=NULL;
         //END OF INPUT VALIDATION
@@ -61,7 +61,7 @@ try {
 ?>
 <form action="new_thread.php" method="post" accept-charset="UTF-8">
         <?php  if ($thread_name_error_msg !== NULL) echo "<p>$thread_name_error_msg</p>" ?>
-        <p>Name: <input type="text" name="name" maxlength="950" 
+        <p>Name: <input type="text" name="name" maxlength="950"
                 value="<?php echo SecFun::escape_str_in_usual_html_pl($name) ?>">
         </p>
         <?php  if ($contents_error_msg !== NULL) echo "<p>$contents_error_msg</p>" ?>

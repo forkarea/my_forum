@@ -2,7 +2,7 @@
         namespace domain;
         use PDO;
 
-        class ForumPost 
+        class ForumPost
         {
                 public $dbh;
 
@@ -12,7 +12,7 @@
                 public $creation_time;
                 public $created_by_user;
 
-                public function __construct($dbh) 
+                public function __construct($dbh)
                 {
                         $this->dbh = $dbh;
                 }
@@ -29,9 +29,9 @@
 
                         return $r;
                 }
-                        
 
-                public static function create_as_new($dbh, $text, $user, &$error_msg) 
+
+                public static function create_as_new($dbh, $text, $user, &$error_msg)
                 {
                         //we really need string length in bytes
                         //because the array column is of type varbinary
@@ -42,7 +42,7 @@
                         } elseif ($text_length > 9990) {
                                 $error_msg = "The message is too long!";
                                 return null;
-                        } 
+                        }
                         $match_result = preg_match('|^[[:space:]]*$|', $text);
                         if ($match_result !== 0) {
                                 $error_msg = "Message cannot contain only whitespace!";
@@ -65,7 +65,7 @@
                 }
 
 
-                public function persist(&$error_msg) 
+                public function persist(&$error_msg)
                 {
                         try {
                                 $stmt = $this->dbh->prepare('insert into posts (text, thread_id, creation_time, created_by_user) values (:text, :thread_id, :creation_time, :created_by_user)');

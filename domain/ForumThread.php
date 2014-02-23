@@ -1,11 +1,11 @@
-<?php 
+<?php
         namespace domain;
         use PDO;
 
 	class ForumThread {
                 private $dbh = NULL;
                 private $error_msg = NULL;
-                
+
                 public $id = NULL;
                 public $name = NULL;
                 public $time = NULL;
@@ -23,7 +23,7 @@
                         } elseif ($name_length > 950) {
                                 $error_msg = "The thread name is too long!";
                                 return null;
-                        } 
+                        }
 
                         $thr = new ForumThread($dbh);
                         $thr->dbh = $dbh;
@@ -58,15 +58,15 @@
                         $thr->created_by_user = $created_by_user;
                         return $thr;
 		}
-		
+
 		public function get_id() {
 			return $this->id;
 		}
-		
+
 		public function get_name() {
                         return $this->name;
 		}
-		
+
 		public function add_post($text ) {
                         $post = ForumPost::create_as_new($this->dbh, $text, NULL, $this->error_msg);
                         if ($post === NULL)
@@ -79,7 +79,7 @@
                         $post->thread_id = $this->id;
                         return $post->persist($this->error_msg);
                 }
-		
+
 		public function get_all_posts() {
                         try {
                                 $stmt = $this->dbh->prepare('SELECT text, creation_time FROM posts WHERE thread_id=:thread_id');

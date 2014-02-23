@@ -1,9 +1,9 @@
 <?php
 include_once 'SplClassLoader/SplClassLoader.php';
-$classLoader = new SplClassLoader('domain', '.'); 
+$classLoader = new SplClassLoader('domain', '.');
 $classLoader->register();
 
-$utilityClassLoader = new SplClassLoader('utility', '.'); 
+$utilityClassLoader = new SplClassLoader('utility', '.');
 $utilityClassLoader->register();
 
 if (PHP_VERSION_ID < 50500) {

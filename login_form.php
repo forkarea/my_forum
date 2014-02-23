@@ -9,7 +9,7 @@
         $ret = UserManager::get_empty_error_state();
         $dbh = utility\DatabaseConnection::getDatabaseConnection();
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        
+
         $um = new UserManager($dbh);
         $user = $um->get_logged_in_user();
         if ($user !== NULL)
@@ -38,13 +38,13 @@
         generate_page_header_with_user("My forum - add a new user", NULL);
 ?>
 
-<?php 
-        if ($display_login_error) { 
+<?php
+        if ($display_login_error) {
                 function display_old_value($name) {
                         global $ret;
                         global $$name;
                         if (isset($$name))
-                                echo SecFun::escape_str_in_usual_html_pl($$name, false); 
+                                echo SecFun::escape_str_in_usual_html_pl($$name, false);
                 }
         } else {
                 function display_old_value($name) {}
@@ -55,11 +55,11 @@
 
         <form action="login_form.php" method="post" accept-charset="UTF-8">
                 <?php if ($display_login_error) echo "<p>$error</p>" ?>
-                <p>Login: <input type="text" name="login" 
+                <p>Login: <input type="text" name="login"
                         value="<?php display_old_value('login'); ?>"
                 ></input></p>
 
-                <p>Password: <input type="password" name="password" 
+                <p>Password: <input type="password" name="password"
                         value="<?php display_old_value('password'); ?>"
                 ></input></p>
 

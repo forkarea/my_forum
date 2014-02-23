@@ -24,7 +24,7 @@
         function is_valid_utf8($variable) {
                 return SecFun::is_valid_utf8($variable);
         }
-        
+
         function sanitize_password_input($variable, &$error_message) {
                 return SecFun::sanitize_password_input($variable, $error_message);
         }
