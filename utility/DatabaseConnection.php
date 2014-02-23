@@ -2,9 +2,10 @@
 namespace utility;
 use PDO;
 
-class DatabaseConnection {
-
-        public static function getDatabaseConnection() {
+class DatabaseConnection
+{
+        public static function getDatabaseConnection()
+        {
                 try {
                         $dbh = new PDO('mysql:host=localhost;dbname=my_php;charset=UTF8', 'my_php', 'abc', array(
                                     PDO::ATTR_PERSISTENT => true

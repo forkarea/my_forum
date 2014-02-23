@@ -3,7 +3,8 @@
 
         use PDO;
 
-        class User {
+        class User
+        {
                 public $user_id;
                 public $login;
                 public $password_hash;
@@ -13,12 +14,14 @@
                 const USERNAME_COOKIE_NAME = "login_username";
                 const LOGIN_SECRET_COOKIE_NAME = "login_secret";
 
-                public function __construct($dbh) {
+                public function __construct($dbh)
+                {
                         $this->dbh = $dbh;
                 }
                 //PDO::FETCH_CLASS mode suggests a non-parametric constructor
                 //Therefore easy to use method for filling all fields requires a separate function
-                public static function construct ($dbh, $user_id, $login, $password_hash, $signup_time) {
+                public static function construct ($dbh, $user_id, $login, $password_hash, $signup_time)
+                {
                         $u = new User($dbh);
                         $u->user_id = $user_id;
                         $u->login = $login;
@@ -28,7 +31,8 @@
                         return $u;
                 }
 
-                public function create_login_cookie () {
+                public function create_login_cookie ()
+                {
                         try {
                                 $login_token = openssl_random_pseudo_bytes(10);
                                 $login_token = base64_encode($login_token);
@@ -53,7 +57,8 @@
                         return $r1 && $r2;
                 }
 
-                public function verify_password($password) {
+                public function verify_password($password)
+                {
                         if (!is_string($this->password_hash))
                                 return false;
                         if (strlen($this->password_hash) === 0)

@@ -1,7 +1,8 @@
 <?php
 namespace utility;
 
-class SecFun {
+class SecFun
+{
         static function my_redirect($target_address)
         {
                 header('Location: '.$target_address);
@@ -40,11 +41,13 @@ class SecFun {
                 return $value;
         }
 
-        static function is_valid_utf8($variable) {
+        static function is_valid_utf8($variable)
+        {
                 return preg_match("//u", $variable) === 1;
         }
 
-        static function sanitize_password_input($variable, &$error_message) {
+        static function sanitize_password_input($variable, &$error_message)
+        {
                 if ($variable === NULL) {
                         my_redirect($target_address);
                 }

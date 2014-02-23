@@ -2,22 +2,26 @@
         namespace domain;
         use PDO;
 
-        class UserManager {
+        class UserManager
+        {
                 private $error = NULL;
                 private $dbh = NULL;
 
-                public function __construct($dbh) {
+                public function __construct($dbh)
+                {
                         $this->dbh = $dbh;
                 }
 
-                public static function get_empty_error_state() {
+                public static function get_empty_error_state()
+                {
                         return array('login_error' => NULL,
                                          'password_error' => NULL,
                                          'password_repeat_error' =>NULL,
                                          'error' => NULL);
                 }
 
-                private function check_new_user_parameters($login, $password, $password_repeat) {
+                private function check_new_user_parameters($login, $password, $password_repeat)
+                {
                         $ret = $this->get_empty_error_state();
                         $ok = true;
 
@@ -69,7 +73,8 @@
                         return NULL;
                 }
 
-                public function create_user($login, $password, $password_repeat) {
+                public function create_user($login, $password, $password_repeat)
+                {
                         $ret = $this->check_new_user_parameters($login, $password, $password_repeat);
                         if (!is_null($ret)) {
                                 $this->error = $ret;
@@ -108,11 +113,13 @@
                         return User::construct($this->dbh, $new_user_id, $login, $hashed_password, $time);
                 }
 
-                public function get_last_error() {
+                public function get_last_error()
+                {
                         return $this->error;
                 }
 
-                public function get_user_by_id($user_id) {
+                public function get_user_by_id($user_id)
+                {
                         try {
                                 $stmt = $this->dbh->prepare("select * from users where user_id = :user_id");
                                 $stmt->bindParam(":user_id", $user_id);
@@ -127,7 +134,8 @@
 
                         return $user;
                 }
-                public function get_logged_in_user() {
+                public function get_logged_in_user()
+                {
                         if (!isset($_COOKIE[User::LOGIN_SECRET_COOKIE_NAME]) ||
                                         !isset($_COOKIE[User::USERNAME_COOKIE_NAME])) {
                                 return NULL;
@@ -149,7 +157,8 @@
                         return $user;
                 }
 
-                public function log_in_user($login, $password) {
+                public function log_in_user($login, $password)
+                {
                         try {
                                 $stmt = $this->dbh->prepare("select * from users where login = :login");
                                 $stmt->bindParam(":login", $login);
@@ -171,7 +180,8 @@
                 }
 
 
-                public function clear_login_cookies() {
+                public function clear_login_cookies()
+                {
                         setcookie(User::USERNAME_COOKIE_NAME, "", 0);
                         setcookie(User::LOGIN_SECRET_COOKIE_NAME, "", 0);
                 }

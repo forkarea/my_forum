@@ -48,13 +48,15 @@
 ?>
 
 <?php if ($display_form) {
-        function display_error($name) {
+        function display_error($name)
+        {
                 global $ret;
                 if (!is_null($ret[$name.'_error']))
                         echo "<p>".$ret[$name.'_error']."</p>";
         }
 
-        function display_old_value($name) {
+        function display_old_value($name)
+        {
                 global $ret;
                 global $$name;
                 if (isset($$name))

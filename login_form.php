@@ -40,7 +40,8 @@
 
 <?php
         if ($display_login_error) {
-                function display_old_value($name) {
+                function display_old_value($name)
+                {
                         global $ret;
                         global $$name;
                         if (isset($$name))

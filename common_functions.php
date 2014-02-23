@@ -21,11 +21,13 @@
                 return SecFun::sanitize_integer_input($variable, $target_address);
         }
 
-        function is_valid_utf8($variable) {
+        function is_valid_utf8($variable)
+        {
                 return SecFun::is_valid_utf8($variable);
         }
 
-        function sanitize_password_input($variable, &$error_message) {
+        function sanitize_password_input($variable, &$error_message)
+        {
                 return SecFun::sanitize_password_input($variable, $error_message);
         }
 
