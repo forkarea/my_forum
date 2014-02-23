@@ -149,6 +149,9 @@
                                 $stmt->execute();
                                 $stmt->setFetchMode(PDO::FETCH_CLASS, 'domain\User', array($this->dbh));
                                 $user = $stmt->fetch();
+                                if ($user === false) {
+                                        return NULL;
+                                }
 
                         } catch (PDOException $ex) {
                                 return NULL;

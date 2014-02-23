@@ -52,6 +52,11 @@
                                 return null;
                         }
 
+                        if (!is_object($user)) {
+                                $error_msg = 'You have to be logged in to post';
+                                return null;
+                        }
+
                         $r = new ForumPost($dbh);
 
                         $r->post_id = NULL;
@@ -90,4 +95,13 @@
                                 return false;
                         }
                 }
+
+
+                public function get_creator()
+                {
+                        $um = new UserManager($this->dbh);
+                        return $um->get_user_by_id($this->created_by_user);
+                }
+
+
         };

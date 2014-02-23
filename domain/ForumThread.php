@@ -6,6 +6,7 @@
 	{
                 private $dbh = NULL;
                 private $error_msg = NULL;
+                private $get_posts_stmt = NULL;
 
                 public $id = NULL;
                 public $name = NULL;
@@ -108,6 +109,37 @@
                                 }
                         } catch (Exception $e) {
                                 $this->error_msg = $e->getMessage();
+                        }
+                }
+
+                public function initiate_getting_all_posts()
+                {
+                        try {
+                                $stmt = $this->dbh->prepare('SELECT * FROM posts WHERE thread_id=:thread_id');
+                                $stmt->bindParam(':thread_id', $this->id);
+                                if ($stmt->execute()) {
+                                        $this->get_posts_stmt = $stmt;
+                                        return true;
+                                } else {
+                                        return false;
+                                }
+                        } catch (Exception $e) {
+                                $this->error_msg = $e->getMessage();
+                                return false;
+                        }
+
+                }
+
+                public function get_next_post()
+                {
+                        if ($this->get_posts_stmt === NULL){
+                                return NULL;
+                        }
+
+                        try {
+                                return $this->get_posts_stmt->fetchObject('\domain\ForumPost', array($this->dbh));
+                        } catch (PDOException $ex) {
+                                return null;
                         }
                 }
 

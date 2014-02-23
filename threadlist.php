@@ -41,7 +41,9 @@ try {
 ?>
 
 </table>
+<?php if (is_object($user)) { ?>
 <a href="new_thread.php">Create a new thread</a>
+<?php } ?>
 
 </body>
 </html>

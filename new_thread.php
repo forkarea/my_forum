@@ -19,25 +19,25 @@ try {
         $um = new UserManager($dbh);
         $user = $um->get_logged_in_user();
 
-        if ($user === NULL) {
-                $error = "You are not currently logged in";
-        }
-
-        if ($user !== NULL && array_key_exists('name', $_POST)) {
-        //INPUT VALIDATION
+        if (array_key_exists('name', $_POST)) {
+                //INPUT VALIDATION
                 $name = SecFun::sanitize_string_input($_POST['name']);
                 $contents = SecFun::sanitize_string_input($_POST['contents']);
                 $_POST=NULL;
                 $_GET=NULL;
-        //END OF INPUT VALIDATION
+                //END OF INPUT VALIDATION
 
-                $post = ForumPost::create_as_new($dbh, $contents, $user, $contents_error_msg);
-                $thread = ForumThread::create_as_new($dbh, $name, $user, $thread_name_error_msg);
-                if ($post !== null && $thread !== null) {
-                        if ($thread->persist($thread_name_error_msg)) {
-                                $post->thread_id = $thread->id;
-                                if ($post->persist($contents_error_msg)) {
-                                        my_redirect('show_thread.php?thread_id='.$thread->get_id());
+                if (!is_object($user)) {
+                        $error = "You are not currently logged in";
+                } else {
+                        $post = ForumPost::create_as_new($dbh, $contents, $user, $contents_error_msg);
+                        $thread = ForumThread::create_as_new($dbh, $name, $user, $thread_name_error_msg);
+                        if ($post !== null && $thread !== null) {
+                                if ($thread->persist($thread_name_error_msg)) {
+                                        $post->thread_id = $thread->id;
+                                        if ($post->persist($contents_error_msg)) {
+                                                my_redirect('show_thread.php?thread_id='.$thread->get_id());
+                                        }
                                 }
                         }
                 }
@@ -46,7 +46,7 @@ try {
         $error = "Database error";
 }
 
-        generate_page_header("My forum - Create a new thread", $dbh);
+        generate_page_header_with_user("My forum - Create a new thread", $user);
 ?>
 
 
