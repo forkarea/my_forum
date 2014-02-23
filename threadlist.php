@@ -21,15 +21,20 @@
 <?php
 try {
         $section = new ForumSection($dbh);
-	if (($stmt = $section->get_all_threads())) {
-	        while ($row = $stmt->fetch()) {
+	if ($section->init_get_all_threads()) {
+	        while ($thread = $section->get_next_thread()) {
                         echo '<tr><td style="border:1px solid black; padding:10px">';
-                        $post_time = $row[2];
+                        $post_time = $thread->time;
                         if (!is_null($post_time)) {
-                               echo "<p>$post_time</p>";
+                                echo "<p>$post_time";
+                                $user = $thread->get_user_creator($um);
+                                if (is_object($user)) {
+                                        echo ' by ' . $user->login;
+                               }
+                               echo '</p>';
                         }
-                        echo "<a href=show_thread.php?thread_id=$row[0]>";
-                        echo    escape_str_in_usual_html_pl($row[1]);
+                        echo "<a href=show_thread.php?thread_id={$thread->id}>";
+                        echo    escape_str_in_usual_html_pl($thread->name);
                         echo '</a>';
                         echo '</td></tr>';
                 }

@@ -5,6 +5,7 @@
 	class ForumSection
 	{
 		private $dbh;
+                private $get_threads_stmt;
 		public function __construct($dbh)
 		{
 			$this->dbh = $dbh;
@@ -30,13 +31,31 @@
 			}
                 }
 
-		public function get_all_threads()
+		public function init_get_all_threads()
 		{
-		        $stmt = $this->dbh->prepare('SELECT id, name, time from threads');
-        		if ($stmt->execute()) {
-        			return $stmt;
-        		} else {
-        			return NULL;
-        		}
+                        try {
+                                $stmt = $this->dbh->prepare('SELECT * from threads');
+
+                                if ($stmt->execute()) {
+                                        $this->get_threads_stmt = $stmt;
+                                        return true;
+                                } else {
+                                        return false;
+                                }
+                        } catch (PDOException $ex) {
+                                return false;
+                        }
 		}
+                public function get_next_thread()
+                {
+                        try {
+                                $thread = $this->get_threads_stmt->fetchObject("domain\\ForumThread", array($this->dbh));
+                                if (!is_object($thread)) {
+                                        return null;
+                                }
+                                return $thread;
+                        } catch (PDOException $ex) {
+                                return null;
+                        }
+                }
 	};
