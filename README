@@ -1,0 +1,5 @@
+This code implements:
+        - PSR-0 autoloading standard: http://www.php-fig.org/psr/psr-0/, but without using VendorName in the namespace hierarchy, because this code is not designed to be used as a module in an external system,
+        - PSR-1 basic coding standard: www.php-fig.org/psr/psr-1, but is currently breaking method name requirements, correcting this now would be too difficult, but future metods will be named correctly,
+      
+Is going to implement PSR-2 in all new code.
