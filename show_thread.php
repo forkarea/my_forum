@@ -50,7 +50,7 @@
 <?php
         $stmt = $thread->get_all_posts();
         if (!is_null($stmt)) {
-                while($row = $stmt->fetch()) {
+                while ($row = $stmt->fetch()) {
                         echo '<tr><td style="border:1px solid black; padding:10px">';
                         $time = $row[1];
                         if (!is_null($time)) {

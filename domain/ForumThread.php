@@ -47,7 +47,7 @@
 		        $stmt->bindParam(':text', $this->name);
 			$stmt->bindParam(':time', $this->time);
 			$stmt->bindParam(':user_id', $this->created_by_user);
-		        if($stmt->execute()) {
+		        if ($stmt->execute()) {
 			        $this->id = $this->dbh->lastInsertId();
 
                                 return true;

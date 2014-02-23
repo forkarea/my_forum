@@ -22,7 +22,7 @@
 try {
         $section = new ForumSection($dbh);
 	if (($stmt = $section->get_all_threads())) {
-	        while($row = $stmt->fetch()) {
+	        while ($row = $stmt->fetch()) {
                         echo '<tr><td style="border:1px solid black; padding:10px">';
                         $post_time = $row[2];
                         if (!is_null($post_time)) {

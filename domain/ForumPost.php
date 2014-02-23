@@ -76,7 +76,7 @@
                                 $stmt->bindValue(':thread_id', $this->thread_id);
                                 $stmt->bindValue(':creation_time', $this->creation_time);
                                 $stmt->bindValue(':created_by_user', $this->created_by_user);
-                                if(! $stmt->execute()) {
+                                if (! $stmt->execute()) {
                                         return false;
                                 } else {
                                         $this->post_id = $this->dbh->lastInsertId();
