@@ -20,4 +20,3 @@ do {
 
 echo "Appropriate Cost Found: " . $cost . "\n";
 ?>
-

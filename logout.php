@@ -5,4 +5,3 @@
         $um->clear_login_cookies();
 
         \utility\SecFun::my_redirect('/');
-

@@ -44,4 +44,3 @@
                 }
                 generate_page_header_with_user($title, $u);
         }
-

@@ -23,7 +23,7 @@ class SecFun
                 if ($variable === NULL) {
                         my_redirect($target_address);
                 }
-                $value = (int)$variable;
+                $value = (int) $variable;
                 if ($value === 0) {
                         my_redirect($target_address);
                 }
@@ -36,7 +36,7 @@ class SecFun
                 if ($variable === NULL) {
                         my_redirect($target_address);
                 }
-                $value = (int)$variable;
+                $value = (int) $variable;
 
                 return $value;
         }
@@ -52,7 +52,7 @@ class SecFun
                         my_redirect($target_address);
                 }
 
-                $variable = (string)$variable;
+                $variable = (string) $variable;
 
                 if (!is_valid_utf8($variable)) {
                         $error_message = "Password is not a valid UTF-8 string";
@@ -69,7 +69,7 @@ class SecFun
                         my_redirect($target_address);
                 }
 
-                $variable = (string)$variable;
+                $variable = (string) $variable;
 
                 if (is_valid_utf8($variable)) {
                         return $variable;
