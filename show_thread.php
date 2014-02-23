@@ -11,6 +11,7 @@
         $thread_id = sanitize_nonzero_integer_input($_REQUEST['thread_id'], 'threadlist.php');
 
         $dbh = utility\DatabaseConnection::getDatabaseConnection();
+        $dbh->beginTransaction();
         $um = new UserManager($dbh);
         $user = $um->get_logged_in_user();
 
@@ -26,6 +27,8 @@
                         $post = ForumPost::create_as_new($dbh, $text, $user, $text_error);
                         if ($post != NULL) {
                                 $thread->add_post_raw($post);
+                                $dbh->commit();
+                                //else implicit rollback
                         };
                 } else {
                         $text_error = "You are not logged in";

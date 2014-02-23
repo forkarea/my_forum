@@ -16,6 +16,7 @@
 
 try {
         $dbh = utility\DatabaseConnection::getDatabaseConnection();
+        $dbh->beginTransaction();
         $um = new UserManager($dbh);
         $user = $um->get_logged_in_user();
 
@@ -36,6 +37,7 @@ try {
                                 if ($thread->persist($thread_name_error_msg)) {
                                         $post->thread_id = $thread->id;
                                         if ($post->persist($contents_error_msg)) {
+                                                $dbh->commit();
                                                 my_redirect('show_thread.php?thread_id='.$thread->get_id());
                                         }
                                 }

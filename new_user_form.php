@@ -8,6 +8,7 @@
         $ret = UserManager::get_empty_error_state();
         $dbh = utility\DatabaseConnection::getDatabaseConnection();
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbh->beginTransaction();
 
 
         $um = new UserManager($dbh);
@@ -30,6 +31,8 @@
                                 $ret = $um->get_last_error();
                                 $display_form = true;
                         } else {
+                                $dbh->commit();
+                                //else rollback
                                 $r = $user->create_login_cookie();
                                 if ($r !== true) {
                                         $ret['error'] = $r;

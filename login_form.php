@@ -9,6 +9,7 @@
         $ret = UserManager::get_empty_error_state();
         $dbh = utility\DatabaseConnection::getDatabaseConnection();
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbh->beginTransaction();
 
         $um = new UserManager($dbh);
         $user = $um->get_logged_in_user();
@@ -24,6 +25,7 @@
                         $user = $um->log_in_user($login, $password);
                         if ($user !== NULL) {
                                 $user->create_login_cookie();
+                                $dbh->commit();
                                 my_redirect('/');
                         } else {
                                 $error = "Incorrect username or password";
@@ -36,6 +38,7 @@
         }
 
         generate_page_header_with_user("My forum - add a new user", NULL);
+        //implicit $dbh->rollBack()
 ?>
 
 <?php
