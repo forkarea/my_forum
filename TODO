@@ -2,3 +2,5 @@
 
 - obrona przed CSRF,
 
+- widok wątków i postów podzielony na wiele stron,
+
