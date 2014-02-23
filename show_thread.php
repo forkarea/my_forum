@@ -26,7 +26,7 @@
                 if (is_object($user)) {
                         $post = ForumPost::create_as_new($dbh, $text, $user, $text_error);
                         if ($post != NULL) {
-                                $thread->add_post_raw($post);
+                                $thread->add_post($post, $text_error);
                                 $dbh->commit();
                                 //else implicit rollback
                         };
@@ -42,12 +42,10 @@
                 my_redirect('show_thread.php?thread_id='.$thread_id);
         }
 
-        $thread_name = $thread->get_name();
-
-        generate_page_header_with_user(escape_str_in_usual_html_pl($thread_name), $user);
+        generate_page_header_with_user(escape_str_in_usual_html_pl($thread->name), $user);
 ?>
         <h2>
-                <?php echo escape_str_in_usual_html_pl($thread_name); ?>
+                <?php echo escape_str_in_usual_html_pl($thread->name); ?>
         </h2>
         <p> Created
                 <?php
@@ -62,8 +60,7 @@
 
 <table style="width: 70%">
 <?php
-        $stmt = $thread->get_all_posts();
-        if ($thread->initiate_getting_all_posts() === true) {
+        if ($thread->initiate_getting_all_posts($text_error) === true) {
                 while ($post = $thread->get_next_post()) {
                         echo '<tr><td style="border:1px solid black; padding:10px">';
                         $time = $post->creation_time;

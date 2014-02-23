@@ -18,8 +18,8 @@
                 {
                         $this->dbh = $dbh;
                 }
-                //PDO::FETCH_CLASS mode suggests a non-parametric constructor
-                //Therefore easy to use method for filling all fields requires a separate function
+
+
                 public static function construct($dbh, $user_id, $login, $password_hash, $signup_time)
                 {
                         $u = new User($dbh);

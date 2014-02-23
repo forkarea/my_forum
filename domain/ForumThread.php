@@ -5,7 +5,6 @@
 	class ForumThread
 	{
                 private $dbh = NULL;
-                private $error_msg = NULL;
                 private $get_posts_stmt = NULL;
 
                 public $id = NULL;
@@ -18,16 +17,16 @@
                         $this->dbh = $dbh;
                 }
 
+                //create a new thread that is to be stored into the database
+                //__construct is used for PDO for getting the database row as a class
                 public static function create_as_new($dbh, $name, $user, &$error_msg)
                 {
                         $name_length = strlen($name);
                         if ($name_length === 0) {
                                 $error_msg = "Please write the thread name!";
-
                                 return null;
                         } elseif ($name_length > 950) {
                                 $error_msg = "The thread name is too long!";
-
                                 return null;
                         }
 
@@ -42,6 +41,7 @@
                         return $thr;
                 }
 
+                //store in the database
                 public function persist(&$error_msg)
                 {
 		        $stmt = $this->dbh->prepare('insert into threads (name, time, created_by_user) values (:text, :time, :user_id)');
@@ -50,25 +50,11 @@
 			$stmt->bindParam(':user_id', $this->created_by_user);
 		        if ($stmt->execute()) {
 			        $this->id = $this->dbh->lastInsertId();
-
                                 return true;
 		        } else {
 		        	return false;
 		        }
                 }
-
-		public static function construct($dbh, $id, $name, $time, $created_by_user)
-		{
-                        $thr = new ForumThread($dbh);
-                        $thr->dbh = $dbh;
-
-			$thr->id = $id;
-                        $thr->name = $name;
-                        $thr->time = $time;
-                        $thr->created_by_user = $created_by_user;
-
-                        return $thr;
-		}
 
 		public function get_id()
 		{
@@ -80,39 +66,14 @@
                         return $this->name;
 		}
 
-		public function add_post($text)
-		{
-                        $post = ForumPost::create_as_new($this->dbh, $text, NULL, $this->error_msg);
-                        if ($post === NULL)
-                                return false;
-                        $post->thread_id = $this->id;
-
-                        return $post->persist($this->error_msg);
-		}
-
-                public function add_post_raw($post)
+                public function add_post($post, &$error_msg)
                 {
                         $post->thread_id = $this->id;
 
-                        return $post->persist($this->error_msg);
+                        return $post->persist($error_msg);
                 }
 
-		public function get_all_posts()
-		{
-                        try {
-                                $stmt = $this->dbh->prepare('SELECT text, creation_time FROM posts WHERE thread_id=:thread_id');
-                                $stmt->bindParam(':thread_id', $this->id);
-                                if ($stmt->execute()) {
-                                        return $stmt;
-                                } else {
-                                        return NULL;
-                                }
-                        } catch (Exception $e) {
-                                $this->error_msg = $e->getMessage();
-                        }
-                }
-
-                public function initiate_getting_all_posts()
+                public function initiate_getting_all_posts(&$error_msg)
                 {
                         try {
                                 $stmt = $this->dbh->prepare('SELECT * FROM posts WHERE thread_id=:thread_id');
@@ -124,7 +85,7 @@
                                         return false;
                                 }
                         } catch (Exception $e) {
-                                $this->error_msg = $e->getMessage();
+                                $error_msg = 'Cannot get posts from the database';
                                 return false;
                         }
 
@@ -141,12 +102,6 @@
                         } catch (PDOException $ex) {
                                 return null;
                         }
-                }
-
-                //The error message should be save to display in HTML
-                public function get_last_error()
-                {
-                        return $this->error_msg;
                 }
 
                 public function get_user_creator($um)

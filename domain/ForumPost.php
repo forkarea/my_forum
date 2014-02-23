@@ -4,8 +4,9 @@
 
         class ForumPost
         {
-                public $dbh;
+                private $dbh;
 
+                //Variables mapped from the database
                 public $post_id;
                 public $text;
                 public $thread_id;
@@ -17,20 +18,7 @@
                         $this->dbh = $dbh;
                 }
 
-                public static function construct($dbh, $post_id, $text, $thread_id, $creation_time, $created_by_user)
-                {
-                        $r = new ForumPost($dbh);
-
-                        $r->post_id = $post_id;
-                        $r->text = $text;
-                        $r->thread_id = $thread_id;
-                        $r->creation_time = $creation_time;
-                        $r->created_by_user = $created_by_user;
-
-                        return $r;
-                }
-
-
+                //create a new ForumPost class to be imported into the database
                 public static function create_as_new($dbh, $text, $user, &$error_msg)
                 {
                         //we really need string length in bytes
@@ -72,7 +60,7 @@
                         return $r;
                 }
 
-
+                //Store the class in the database
                 public function persist(&$error_msg)
                 {
                         try {
@@ -97,6 +85,7 @@
                 }
 
 
+                //Get the user who created the post
                 public function get_creator($um = NULL)
                 {
                         if ($um === NULL) {
@@ -104,6 +93,4 @@
                         }
                         return $um->get_user_by_id($this->created_by_user);
                 }
-
-
         };
