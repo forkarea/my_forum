@@ -25,7 +25,7 @@
                 if (is_object($user)) {
                         $post = ForumPost::create_as_new($dbh, $text, $user, $text_error);
                         if ($post != NULL) {
-                                $thread->add_post_raw($text);
+                                $thread->add_post_raw($post);
                         };
                 } else {
                         $text_error = "You are not logged in";
