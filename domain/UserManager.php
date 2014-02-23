@@ -33,7 +33,7 @@
                         } elseif ($login_length >= 20) {
                                $ret['login_error'] = "The user login is too long (max. 20 chars)";
                                $ok = false;
-                        } elseif (!\utils\SecFun::is_valid_utf8($login)) {
+                        } elseif (!\utility\SecFun::is_valid_utf8($login)) {
                                $ret['login_error'] = "The user login is not a valid UTF-8 string";
                                $ok = false;
                         //check for allowed characters in the user login
