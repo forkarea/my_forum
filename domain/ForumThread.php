@@ -93,7 +93,7 @@
 
                 public function get_next_post()
                 {
-                        if ($this->get_posts_stmt === NULL){
+                        if ($this->get_posts_stmt === NULL) {
                                 return NULL;
                         }
 

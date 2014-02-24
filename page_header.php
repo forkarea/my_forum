@@ -8,7 +8,6 @@
         {
                 header('Content-Type: text/html; charset=utf-8');
 
-
                 echo "<!DOCTYPE html>\n";
                 echo "<html>\n";
                 echo '<head><meta charset="utf-8"><title>';
@@ -37,4 +36,3 @@
                 echo "<h1>My forum</h1>\n";
 
         }
-

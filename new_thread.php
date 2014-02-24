@@ -61,7 +61,6 @@ try {
         generate_page_header_with_user("My forum - Create a new thread", $user);
 ?>
 
-
 <h2>Create a new thread</h2>
 
 <?php

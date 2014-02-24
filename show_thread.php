@@ -48,7 +48,7 @@
         } else {
                 $dbh->rollBack();
         }
-                
+
         if (is_null($text_error) && array_key_exists('thread_id', $_POST)) {
                 //redirect to a website using GET so that
                 //the address bar contains thread_id and
@@ -92,14 +92,14 @@
         }
 ?>
 </table>
-<?php if(is_object($user) || ($text_error !== NULL)) { ?>
+<?php if (is_object($user) || ($text_error !== NULL)) { ?>
 <h2> Add a new post </h2>
 	<form action="show_thread.php" method="post" accept-charset="UTF-8">
         <?php if ($text_error !== NULL) echo "<p>$text_error</p>" ?>
         <p><textarea rows="5" cols="100" name="text"><?php if ($text !== NULL) echo escape_str_in_usual_html_pl($text) ?></textarea></p>
         <input type="hidden" name="thread_id" value="<?= $thread_id ?>">
         <input type="hidden" name="csrf_token" value="<?= $user->get_new_CSRF_protection_token() ?>">
-        <?php if(is_object($user)) { ?>
+        <?php if (is_object($user)) { ?>
                 <p><input type="submit" value="Submit"></p>
         <?php } ?>
 </form>

@@ -38,6 +38,7 @@
 
                                 if ($stmt->execute()) {
                                         $this->get_threads_stmt = $stmt;
+
                                         return true;
                                 } else {
                                         return false;
@@ -53,6 +54,7 @@
                                 if (!is_object($thread)) {
                                         return null;
                                 }
+
                                 return $thread;
                         } catch (\PDOException $ex) {
                                 return null;

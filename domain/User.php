@@ -25,7 +25,7 @@
                                 $ret = "The password is in an incorrect format";
                                 return false;
                         }
-                        
+
                         if (strlen($password) < 10) {
                                 $ret = "The password is too short (minimum 10 characters)";
                                 return false;
@@ -115,11 +115,12 @@
                         $user->login = $login;
                         $user->password_hash = $hashed_password;
                         $user->signup_time = \utility\DatabaseConnection::getCurrentDateForDb();
-                        
+
                         return $user;
                 }
 
-                public function persist(&$error_msg = null) {
+                public function persist(&$error_msg = null)
+                {
                         try {
                                 $stmt = $this->dbh->prepare(
                                         "insert into users (login, password_hash, signup_time) " .
@@ -129,7 +130,7 @@
                                 $stmt->bindParam(":time", $this->signup_time);
                                 $stmt->execute();
                                 $this->user_id = $this->dbh->lastInsertId();
-                                
+
                                 return true;
                         } catch (\PDOException $ex) {
                                 $error_msg = "Cannot create user in the database.";
@@ -175,7 +176,7 @@
                                 $error_msg = "Cannot create password hash!";
                                 return NULL;
                         }
-                        
+
                         if ($this->user_id === null) {
                                 $error_msg = 'Database query failed';
                         }
@@ -188,7 +189,6 @@
                                 $stmt->bindValue(':old_password_hash', $this->password_hash);
                                 $stmt->bindValue(':user_id', $this->user_id);
                                 $stmt->execute();
-
 
                         } catch (\PDOException $ex) {
                                 $error_msg = 'Database query failed';
@@ -221,7 +221,7 @@
                 }
 
                 public function clear_CSRF_protection_token()
-                {       
+                {
                         $_SESSION['csrf'] = null;
                 }
         };

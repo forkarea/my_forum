@@ -87,7 +87,6 @@
                         return $user;
                 }
 
-
                 public function clear_login_cookies()
                 {
                         unset($_SESSION['user_id']);

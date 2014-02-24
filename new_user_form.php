@@ -11,7 +11,6 @@
         $dbh = utility\DatabaseConnection::getDatabaseConnection();
         $dbh->beginTransaction();
 
-
         $um = new UserManager($dbh);
         $user = $um->get_logged_in_user();
 
@@ -22,7 +21,6 @@
                 $login = sanitize_string_input($_POST['login']);
                 $password = sanitize_password_input($_POST['password'], $ret['password_error']);
                 $password_repeat = sanitize_password_input($_POST['password_repeat'], $ret['password_repeat_error']);
-
 
                 $succeeded = false;
                 if ($password === NULL || $password_repeat === NULL) {
@@ -58,12 +56,11 @@
         include_once './form_support.php';
 ?>
 
-
         <h2>Add a new user</h2>
 
         <?php if (!is_null($ret['error'])) echo "<h2>ERROR: $ret[error]</h2>" ?>
         <form action="new_user_form.php" method="post" accept-charset="UTF-8">
-<?php 
+<?php
                 display_form_field('login', 'Login:', 'login');
                 display_form_field('password', 'Password:', 'password');
                 display_form_field('password_repeat', 'Repeat password:', 'password');

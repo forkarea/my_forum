@@ -53,14 +53,13 @@
 ?>
 
 <?php if ($display_form) {
-        include_once "./form_support.php";
+        include_once './form_support.php';
 ?>
-
 
         <h2>Add a new user</h2>
 
         <form action="change_password.php" method="post" accept-charset="UTF-8">
-<?php 
+<?php
                 display_form_field('old_password', 'Old password:', 'password');
                 display_form_field('password', 'New password:', 'password');
                 display_form_field('password_repeat', 'Repeat new password:', 'password');

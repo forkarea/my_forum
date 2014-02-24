@@ -17,7 +17,6 @@ class DatabaseConnection
 
                         return $dbh;
 
-
                 } catch (\PDOException $e) {
                         die('Cannot connect to the database');
                 }
