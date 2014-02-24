@@ -1,9 +1,3 @@
-[submodule "password_compat"]
-	path = password_compat
-	url = https://github.com/ircmaxell/password_compat.git
-[submodule "SplClassLoader"]
-	path = SplClassLoader
-	url = https://gist.github.com/221634.git
 [submodule "src/password_compat"]
 	path = src/password_compat
 	url = https://github.com/ircmaxell/password_compat.git
