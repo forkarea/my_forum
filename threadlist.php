@@ -29,9 +29,9 @@ try {
                         $post_time = $thread->time;
                         if (!is_null($post_time)) {
                                 echo "<p>$post_time";
-                                $user = $thread->get_user_creator($um);
-                                if (is_object($user)) {
-                                        echo ' by ' . $user->login;
+                                $user_creator = $thread->get_user_creator($um);
+                                if (is_object($user_creator)) {
+                                        echo ' by ' . $user_creator->login;
                                }
                                echo '</p>';
                         }
@@ -50,7 +50,8 @@ try {
 </table>
 <?php if (is_object($user)) { ?>
 <a href="new_thread.php">Create a new thread</a>
+<?php } else { ?>
+<p>Please login to create new threads</p>
 <?php } ?>
-
 </body>
 </html>
