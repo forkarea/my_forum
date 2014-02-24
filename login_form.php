@@ -62,12 +62,12 @@
         <form action="login_form.php" method="post" accept-charset="UTF-8">
                 <?php if ($display_login_error) echo "<p>$error</p>" ?>
                 <p>Login: <input type="text" name="login"
-                        value="<?php display_old_value('login'); ?>"
-                ></input></p>
+                        value="<?php display_old_value('login'); ?>">
+                </p>
 
                 <p>Password: <input type="password" name="password"
-                        value="<?php display_old_value('password'); ?>"
-                ></input></p>
+                        value="<?php display_old_value('password'); ?>">
+                </p>
 
                 <p><input type="submit" value="Log in"></p>
         </form>
