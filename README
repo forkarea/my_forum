@@ -17,6 +17,9 @@ Security:
           additional options. This should prevent XSS.
         - Most forms are protected against CSRF attacks. (except for login/new
           user forms, but there CSRF would be rather harmless).
+        - Passwords are hashed using the BLOWFISH algorithm using a function that
+          was introduced in PHP 5.5. A compatibility library is used on older
+          systems.
 
 UTF-8:
         - all texts in the program are handled in UTF-8. That includes input
