@@ -20,6 +20,112 @@
                 }
 
 
+                private static function check_new_user_parameters($dbh, $login, $password, $password_repeat)
+                {
+                        $ret = User::get_empty_error_state();
+                        $ok = true;
+
+                        $login_length = mb_strlen($login, "UTF-8");
+                        if ($login_length < 4) {
+                               $ret['login_error'] = "The user login is too short (min. 4 chars)";
+                               $ok = false;
+                        } elseif ($login_length >= 20) {
+                               $ret['login_error'] = "The user login is too long (max. 20 chars)";
+                               $ok = false;
+                        } elseif (!\utility\SecFun::is_valid_utf8($login)) {
+                               $ret['login_error'] = "The user login is not a valid UTF-8 string";
+                               $ok = false;
+                        //check for allowed characters in the user login
+                        } elseif (preg_match('/^(\p{L}|[-0-9._])*$/u', $login) !== 1) {
+                                $ret['login_error'] = "The user login contains invalid characters (only letters (including multilingual), digits, hyphen, underscore and dot allowed).";
+                                $ok = false;
+                        } else {
+                                try {
+                                        $stmt = $dbh->prepare("SELECT user_id FROM users WHERE login=:login");
+                                        $stmt->bindParam(":login", $login);
+                                        $r = $stmt->execute();
+
+                                        $row = $stmt->fetch();
+                                        if ($row !== false) {
+                                                $ret['login_error'] = "The user login already exists";
+                                                $ok = false;
+                                        }
+                                } catch (PDOException $ex) {
+                                        $ret['error'] = "Cannot connect to the database.";
+                                        $ok = false;
+                                }
+                        }
+
+                        if ($password !== $password_repeat) {
+                               $ret['password_repeat_error'] = "The passwords don't match";
+                               $ok = false;
+                        }
+
+                        if (strlen($password) < 10) {
+                                $ret['password_error'] = "The password is too short (minimum 10 characters)";
+                                $ok = false;
+                        }
+
+                        if ($ok !== true) {
+                                return $ret;
+                        }
+
+                        return NULL;
+                }
+
+                public static function get_empty_error_state()
+                {
+                        return array('login_error' => NULL,
+                                         'password_error' => NULL,
+                                         'password_repeat_error' =>NULL,
+                                         'error' => NULL);
+                }
+
+                public static function create_as_new($dbh, $login, $password, $password_repeat, &$error)
+                {
+                        $ret = User::check_new_user_parameters($dbh, $login, $password, $password_repeat);
+                        if (!is_null($ret)) {
+                                $error = $ret;
+
+                                return NULL;
+                        }
+
+                        $error = User::get_empty_error_state();
+
+                        //PHP manual suggests to store hashes in a column 255 chars wide
+                        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                        if ($hashed_password === FALSE) {
+                                $error['error'] = "Cannot create password hash!";
+                                return NULL;
+                        }
+
+                        $user = new User($dbh);
+                        $user->login = $login;
+                        $user->password_hash = $hashed_password;
+                        $user->signup_time = \utility\DatabaseConnection::getCurrentDateForDb();
+                        
+                        return $user;
+                }
+
+                public function persist(&$error_msg = null) {
+                        try {
+                                $stmt = $this->dbh->prepare(
+                                        "insert into users (login, password_hash, signup_time) " .
+                                        "values (:login, :password_hash, :time)");
+                                $stmt->bindParam(":login", $this->login);
+                                $stmt->bindParam(":password_hash", $this->password_hash);
+                                $stmt->bindParam(":time", $this->signup_time);
+                                $stmt->execute();
+                                $this->user_id = $this->dbh->lastInsertId();
+                                
+                                return true;
+                        } catch (\PDOException $ex) {
+                                $error_msg = "Cannot create user in the database.";
+
+                                return false;
+                        }
+                }
+
                 public static function construct($dbh, $user_id, $login, $password_hash, $signup_time)
                 {
                         $u = new User($dbh);
@@ -34,6 +140,7 @@
                 public function create_login_cookie()
                 {
                         $_SESSION['user_id'] = $this->user_id;
+                        return true;
                 }
 
                 public function verify_password($password)
@@ -51,6 +158,7 @@
                         $_SESSION['csrf'] = $csrf;
                         return $csrf;
                 }
+
 
                 public function check_CSRF_protection_token($token)
                 {

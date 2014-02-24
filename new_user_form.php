@@ -7,7 +7,7 @@
 
         session_start();
 
-        $ret = UserManager::get_empty_error_state();
+        $ret = User::get_empty_error_state();
         $dbh = utility\DatabaseConnection::getDatabaseConnection();
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $dbh->beginTransaction();
@@ -28,19 +28,17 @@
                 if ($password === NULL || $password_repeat === NULL) {
                         $display_form = true;
                 } else {
-                        $user = $um->create_user($login, $password, $password_repeat);
+                        $user = User::create_as_new($dbh, $login, $password, $password_repeat, $ret);
                         if ($user === NULL) {
-                                $ret = $um->get_last_error();
                                 $display_form = true;
                         } else {
-                                $dbh->commit();
-                                //else rollback
-                                $r = $user->create_login_cookie();
-                                if ($r !== true) {
-                                        $ret['error'] = $r;
-                                        $display_form = true;
-                                } else {
+                                if ($user->persist($ret['error']) === true) {
+                                        $dbh->commit();
+                                        //else rollback
+                                        $r = $user->create_login_cookie();
                                         $display_form = false;
+                                } else {
+                                        $display_form = true;
                                 }
                         }
                 }
