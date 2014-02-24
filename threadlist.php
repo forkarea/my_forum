@@ -35,7 +35,7 @@ try {
                                }
                                echo '</p>';
                         }
-                        echo "<a href=show_thread.php?thread_id={$thread->id}>";
+                        echo "<a href=\"show_thread.php?thread_id={$thread->id}\">";
                         echo    escape_str_in_usual_html_pl($thread->name);
                         echo '</a>';
                         echo '</td></tr>';
