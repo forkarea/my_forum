@@ -84,7 +84,7 @@
 <h2> Add a new post </h2>
 	<form action="show_thread.php" method="post" accept-charset="UTF-8">
         <?php if ($text_error !== NULL) echo "<p>$text_error</p>" ?>
-        <p><textarea rows="5" cols="20" name="text"><?php if ($text !== NULL) echo escape_str_in_usual_html_pl($text) ?></textarea></p>
+        <p><textarea rows="5" cols="100" name="text"><?php if ($text !== NULL) echo escape_str_in_usual_html_pl($text) ?></textarea></p>
         <input type="hidden" name="thread_id" value="<?php echo $thread_id ?>">
         <?php if(is_object($user)) { ?>
                 <p><input type="submit" value="Submit"></p>
