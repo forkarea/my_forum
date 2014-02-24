@@ -77,18 +77,18 @@
         <form action="new_user_form.php" method="post" accept-charset="UTF-8">
                 <?php display_error('login') ?>
                 <p>Login: <input type="text" name="login"
-                        value="<?php display_old_value('login'); ?>"
-                ></input></p>
+                        value="<?php display_old_value('login'); ?>">
+                </p>
 
                 <?php display_error('password') ?>
                 <p>Password: <input type="password" name="password"
-                        value="<?php display_old_value('password'); ?>"
-                ></input></p>
+                        value="<?php display_old_value('password'); ?>">
+                </p>
 
                 <?php display_error('password_repeat') ?>
                 <p>Repeat password: <input type="password" name="password_repeat"
-                        value="<?php display_old_value('password_repeat'); ?>"
-                ></input></p>
+                        value="<?php display_old_value('password_repeat'); ?>">
+                </p>
 
                 <p><input type="submit" value="Submit"></p>
         </form>
