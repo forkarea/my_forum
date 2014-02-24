@@ -17,8 +17,8 @@
         function display_form_field($name, $description, $type = "text")
         {
                 display_error($name);
-                echo "<p>$description <input type=\"$type\" name=\"$name\"\n";
+                echo "<p>$description <input type=\"$type\" name=\"$name\" ";
                 if ($type !== 'password')
                         display_old_value($name);
-                echo '</p>';
+                echo "></p>\n";
         }

@@ -61,7 +61,7 @@
         <?php if (!is_null($ret['error'])) echo "<h2>ERROR: $ret[error]</h2>" ?>
         <form action="new_user_form.php" method="post" accept-charset="UTF-8">
 <?php
-                display_form_field('login', 'Login:', 'login');
+                display_form_field('login', 'Login:');
                 display_form_field('password', 'Password:', 'password');
                 display_form_field('password_repeat', 'Repeat password:', 'password');
 ?>
