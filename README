@@ -1,5 +1,6 @@
 To clone this repository:
         git clone https://github.com/matjon/my_forum.git
+        cd my_forum
         git submodule init
         git submodule update
 
