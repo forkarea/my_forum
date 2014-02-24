@@ -98,8 +98,14 @@
                         }
 
                         try {
-                                return $this->get_posts_stmt->fetchObject('\domain\ForumPost', array($this->dbh));
+                                $post = $this->get_posts_stmt->fetchObject('\domain\ForumPost', array($this->dbh));
+                                if (!is_object($post)) {
+                                        $this->get_posts_stmt = NULL;
+                                        return null;
+                                }
+                                return $post;
                         } catch (\PDOException $ex) {
+                                $this->get_posts_stmt = NULL;
                                 return null;
                         }
                 }
