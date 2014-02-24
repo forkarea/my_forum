@@ -1,5 +1,50 @@
-This code implements:
-        - PSR-0 autoloading standard: http://www.php-fig.org/psr/psr-0/, but without using VendorName in the namespace hierarchy, because this code is not designed to be used as a module in an external system,
-        - PSR-1 basic coding standard: www.php-fig.org/psr/psr-1, but is currently breaking method name requirements, correcting this now would be too difficult, but future metods will be named correctly,
-      
-Is going to implement PSR-2 in all new code.
+The purpose of this project was not to create a working forum software, but to 
+learn PHP. Therefore, I spent much time on refactoring and ensuring that this
+project would be well designed.
+The most important thing that is left to make the project well designed
+is the unified handling of forms. There should be one class (with subclasses) 
+that is responsible for creating them and processing the queries. Early work
+on this can be found in the file form_support.php.
+
+Properties of the code:
+
+Security:
+        - this code uses PDO (prepared statements) for all DB access, because
+          they are almost completely immune to SQL Injection attacks.
+        - all user-generated content that is written to HTML is escaped 
+          using a custom function named escape_str_in_usual_html_pl.
+          This is a thin wrapper over htmlspecialchars that sets some
+          additional options. This should prevent XSS.
+        - Most forms are protected against CSRF attacks. (except for login/new
+          user forms, but there CSRF would be rather harmless).
+
+UTF-8:
+        - all texts in the program are handled in UTF-8. That includes input
+          files, generated HTML and data stored in the database.
+        - all strings in the database are stored in columns of type varbinary.
+          This is the best way to enable storage of characters beyond the 
+          Basic Multilingual Plane (for example: 😁  🐮  🐭  🐵  ) in MySQL.
+        - non-latin UTF-8 letters are allowed in usernames.
+
+Object-oriented programming:
+        - This code uses classes for implementing domain objects.
+        - The classes are real classes, they contain both fields and logic.
+        - As specified in the PSR-0, classes are autoloaded. This is done
+          by example code mentioned in http://www.php-fig.org/psr/psr-0/
+        - PDO class loading mechanisms (PDOStatement::fetchObject) are 
+          employed to load classes from the database.
+
+
+Support for PSR interoperatibility standards:
+        - PSR-0 Autoloading Standard(http://www.php-fig.org/psr/psr-0/). This
+          program conforms to PSR-0, but does not use VendorName in the namespace 
+          hierarchy, because it is not designed to be used as a module in an 
+          external system.
+        - PSR-1 Basic Coding Standard - full conformity except for method name 
+          requirements. This code used under_score method names,
+          PSR-1 requires camelCase. Changing this now would require too much
+          work, but methods of future classes will be named correctly.
+        - PSR-2 - mostly, especially for newer code. The most important
+          practise not followed is correct indentation, but that should be
+          corrected in the future.
+        

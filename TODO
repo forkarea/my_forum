@@ -1,7 +1,5 @@
 Istotne do ukończenia:
-        - file:///home/mateusz/Studia%209%20semestr/PAI/php_manual/php-chunked-xhtml/pdo.error-handling.html - włączyć globalnie  PDO::ERRMODE_EXCEPTION  i sprawdzać wszędzie wyjątki - poprawić obsługę błędów,
         - znaleźć przyczynę spowolnienia przy towrzeniu nowych wątków - kiedyś (2 dni temu wieczorem) trwało to jakieś 100 ms, teraz ponad 200,
-        - napisać jakiś dłuższy opis,
 
 - klasa bazowa dla wszystkich formularzy,
 - ogólny refactoring plików wyświetlających kod HTML,
@@ -9,6 +7,7 @@ Istotne do ukończenia:
 - obrona przed CSRF - dla logowania i tworzenia nowego użytkownika,
 - lepsza szata graficzna,
 
+- PDO - poprawić obsługę błędów 
 
 
 - widok wątków i postów podzielony na wiele stron,
