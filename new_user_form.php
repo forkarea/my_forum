@@ -25,6 +25,7 @@
                 $password_repeat = sanitize_password_input($_POST['password_repeat'], $ret['password_repeat_error']);
 
 
+                $succeeded = false;
                 if ($password === NULL || $password_repeat === NULL) {
                         $display_form = true;
                 } else {
@@ -34,7 +35,7 @@
                         } else {
                                 if ($user->persist($ret['error']) === true) {
                                         $dbh->commit();
-                                        //else rollback
+                                        $succeeded = true;
                                         $r = $user->create_login_cookie();
                                         $display_form = false;
                                 } else {
@@ -42,7 +43,11 @@
                                 }
                         }
                 }
+                if (!$succeeded) {
+                        $dbh->rollBack();
+                }
         } else {
+                $dbh->rollBack();
                 $user = NULL;
                 $display_form = true;
         }

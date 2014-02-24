@@ -38,14 +38,3 @@
 
         }
 
-
-        function generate_page_header($title, $dbh = NULL)
-        {
-                if ($dbh !== NULL) {
-                        $um = new UserManager($dbh);
-                        $u = $um->get_logged_in_user();
-                } else {
-                        $u = NULL;
-                }
-                generate_page_header_with_user($title, $u);
-        }

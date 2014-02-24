@@ -57,6 +57,7 @@ try {
         $error = "Database error";
 }
 
+        $dbh->rollBack();
         generate_page_header_with_user("My forum - Create a new thread", $user);
 ?>
 

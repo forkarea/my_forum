@@ -32,15 +32,16 @@
                         } else {
                                 $error = "Incorrect username or password";
                                 $display_login_error = true;
+                                $dbh->rollBack();
                         }
                 }
         } else {
                 $user = NULL;
                 $display_login_error = false;
+                $dbh->rollBack();
         }
 
         generate_page_header_with_user("My forum - add a new user", NULL);
-        //implicit $dbh->rollBack()
 ?>
 
 <?php

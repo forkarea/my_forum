@@ -25,6 +25,7 @@
         if (array_key_exists('text', $_POST)) {
                 $text = sanitize_string_input($_POST['text']);
 
+                $succeeded = false;
                 if (is_object($user)) {
                         if (!$user->check_CSRF_protection_token($_POST['csrf_token'])) {
                                 $text_error = "You made the request out of sequence. Please repeat it.";
@@ -34,14 +35,20 @@
                                 if (is_object($post)) {
                                         $thread->add_post($post, $text_error);
                                         $dbh->commit();
-                                        //else implicit rollback
+                                        $succeeded = true;
                                 }
                         }
                 } else {
                         $text_error = "You are not logged in";
                 }
+                if (!$succeeded) {
+                        $dbh->rollBack();
+                }
 
-        };
+        } else {
+                $dbh->rollBack();
+        }
+                
         if (is_null($text_error) && array_key_exists('thread_id', $_POST)) {
                 //redirect to a website using GET so that
                 //the address bar contains thread_id and
