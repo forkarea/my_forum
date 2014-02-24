@@ -13,6 +13,8 @@ class DatabaseConnection
                         if ($dbh === NULL)
                                 die('Cannot connect to the database');
 
+                        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
                         return $dbh;
 
 

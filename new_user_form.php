@@ -9,7 +9,6 @@
 
         $ret = User::get_empty_error_state();
         $dbh = utility\DatabaseConnection::getDatabaseConnection();
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $dbh->beginTransaction();
 
 
