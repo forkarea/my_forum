@@ -19,6 +19,19 @@
                         $this->dbh = $dbh;
                 }
 
+                private static function check_password_is_sensible($password, &$ret)
+                {
+                        if (!is_string($password)) {
+                                $ret = "The password is in an incorrect format";
+                                return false;
+                        }
+                        
+                        if (strlen($password) < 10) {
+                                $ret = "The password is too short (minimum 10 characters)";
+                                return false;
+                        }
+                        return true;
+                }
 
                 private static function check_new_user_parameters($dbh, $login, $password, $password_repeat)
                 {
@@ -61,8 +74,7 @@
                                $ok = false;
                         }
 
-                        if (strlen($password) < 10) {
-                                $ret['password_error'] = "The password is too short (minimum 10 characters)";
+                        if (!User::check_password_is_sensible($password, $ret['password_error'])) {
                                 $ok = false;
                         }
 
@@ -150,6 +162,41 @@
                         if (strlen($this->password_hash) === 0)
                                 return false;
                         return password_verify($password, $this->password_hash);
+                }
+
+                public function change_password($new_password, &$error_msg)
+                {
+                        if (!User::check_password_is_sensible($new_password, $error_msg)) {
+                                return false;
+                        }
+
+                        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+                        if ($hashed_password === FALSE) {
+                                $error_msg = "Cannot create password hash!";
+                                return NULL;
+                        }
+                        
+                        if ($this->user_id === null) {
+                                $error_msg = 'Database query failed';
+                        }
+
+                        try {
+                                $stmt = $this->dbh->prepare(
+                                        'update users set password_hash = :password_hash ' .
+                                        'where user_id = :user_id AND password_hash = :old_password_hash');
+                                $stmt->bindValue(':password_hash', $hashed_password);
+                                $stmt->bindValue(':old_password_hash', $this->password_hash);
+                                $stmt->bindValue(':user_id', $this->user_id);
+                                $stmt->execute();
+
+
+                        } catch (\PDOException $ex) {
+                                $error_msg = 'Database query failed';
+                                return false;
+                        }
+
+                        $this->password_hash = $hashed_password;
+                        return true;
                 }
 
                 public function get_new_CSRF_protection_token()

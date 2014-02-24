@@ -1,11 +1,16 @@
-- file:///home/mateusz/Studia%209%20semestr/PAI/php_manual/php-chunked-xhtml/pdo.error-handling.html - włączyć globalnie  PDO::ERRMODE_EXCEPTION  i sprawdzać wszędzie wyjątki - poprawić obsługę błędów,
+Istotne do ukończenia:
+        - file:///home/mateusz/Studia%209%20semestr/PAI/php_manual/php-chunked-xhtml/pdo.error-handling.html - włączyć globalnie  PDO::ERRMODE_EXCEPTION  i sprawdzać wszędzie wyjątki - poprawić obsługę błędów,
+        - ręczny (a nie automatyczny) rollback transakcji, 
+        - znaleźć przyczynę spowolnienia przy towrzeniu nowych wątków - kiedyś (2 dni temu wieczorem) trwało to jakieś 100 ms, teraz ponad 200,
+        - napisać jakiś dłuższy opis,
+
+- klasa bazowa dla wszystkich formularzy,
 
 - obrona przed CSRF - dla logowania i tworzenia nowego użytkownika,
-- możliwość zmiany hasła,
 - lepsza szata graficzna,
+
 
 
 - widok wątków i postów podzielony na wiele stron,
 
-- znaleźć przyczynę spowolnienia przy towrzeniu nowych wątków - kiedyś (2 dni temu wieczorem) trwało to jakieś 100 ms, teraz ponad 200,
 

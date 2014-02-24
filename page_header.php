@@ -25,7 +25,8 @@
                         echo '<p style="text-align: right">';
                         if ($user !== NULL) {
                                 echo "Welcome, {$user->login} ";
-                                echo '<a href="logout.php">Log out</a>';
+                                echo '<a href="logout.php">Log out</a> ';
+                                echo '<a href="change_password.php">Change password</a>';
                         } else {
                                 echo '<a href="new_user_form.php">Sign up</a> ';
                                 echo '<a href="login_form.php">Log in</a>';
