@@ -54,42 +54,18 @@
 ?>
 
 <?php if ($display_form) {
-        function display_error($name)
-        {
-                global $ret;
-                if (!is_null($ret[$name.'_error']))
-                        echo "<p>".$ret[$name.'_error']."</p>";
-        }
-
-        function display_old_value($name)
-        {
-                global $ret;
-                global $$name;
-                if (isset($$name))
-                        echo escape_str_in_usual_html_pl($$name, false);
-        }
-
+        include_once "./form_support.php";
 ?>
 
 
         <h2>Add a new user</h2>
 
         <form action="change_password.php" method="post" accept-charset="UTF-8">
-                <?php display_error('old_password') ?>
-                <p>Old password: <input type="password" name="old_password"
-                        value="<?php display_old_value('old_password'); ?>">
-                </p>
-
-                <?php display_error('password') ?>
-                <p>New password: <input type="password" name="password"
-                        value="<?php display_old_value('password'); ?>">
-                </p>
-
-                <?php display_error('password_repeat') ?>
-                <p>Repeat new password: <input type="password" name="password_repeat"
-                        value="<?php display_old_value('password_repeat'); ?>">
-                </p>
-
+<?php 
+                display_form_field('old_password', 'Old password:', 'password');
+                display_form_field('password', 'New password:', 'password');
+                display_form_field('password_repeat', 'Repeat new password:', 'password');
+?>
                 <p><input type="submit" value="Submit"></p>
         </form>
 <?php } else { ?>

@@ -4,6 +4,7 @@ Istotne do ukończenia:
         - napisać jakiś dłuższy opis,
 
 - klasa bazowa dla wszystkich formularzy,
+- ogólny refactoring plików wyświetlających kod HTML,
 
 - obrona przed CSRF - dla logowania i tworzenia nowego użytkownika,
 - lepsza szata graficzna,
