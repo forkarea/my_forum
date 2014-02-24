@@ -50,7 +50,7 @@
                                                 $ret['login_error'] = "The user login already exists";
                                                 $ok = false;
                                         }
-                                } catch (PDOException $ex) {
+                                } catch (\PDOException $ex) {
                                         $ret['error'] = "Cannot connect to the database.";
                                         $ok = false;
                                 }

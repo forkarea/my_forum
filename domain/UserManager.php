@@ -43,7 +43,7 @@
                                 if ($user === false) {
                                         return NULL;
                                 }
-                        } catch (PDOException $ex) {
+                        } catch (\PDOException $ex) {
                                 return NULL;
                         }
 
@@ -80,7 +80,7 @@
                                         $user = NULL;
                                 }
 
-                        } catch (PDOException $ex) {
+                        } catch (\PDOException $ex) {
                                 return NULL;
                         }
 

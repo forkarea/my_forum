@@ -42,7 +42,7 @@
                                 } else {
                                         return false;
                                 }
-                        } catch (PDOException $ex) {
+                        } catch (\PDOException $ex) {
                                 return false;
                         }
 		}
@@ -54,7 +54,7 @@
                                         return null;
                                 }
                                 return $thread;
-                        } catch (PDOException $ex) {
+                        } catch (\PDOException $ex) {
                                 return null;
                         }
                 }

@@ -99,7 +99,7 @@
 
                         try {
                                 return $this->get_posts_stmt->fetchObject('\domain\ForumPost', array($this->dbh));
-                        } catch (PDOException $ex) {
+                        } catch (\PDOException $ex) {
                                 return null;
                         }
                 }

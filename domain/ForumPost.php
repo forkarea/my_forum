@@ -76,7 +76,7 @@
 
                                         return true;
                                 }
-                        } catch (PDOException $ex) {
+                        } catch (\PDOException $ex) {
                                 trigger_warning('PDO Error: ' . $ex->getMessage());
                                 $error_msg = "Cannot save the value to database";
 
