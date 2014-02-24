@@ -44,4 +44,29 @@
                                 return false;
                         return password_verify($password, $this->password_hash);
                 }
+
+                public function get_new_CSRF_protection_token()
+                {
+                        $csrf = sha1(openssl_random_pseudo_bytes(10));
+                        $_SESSION['csrf'] = $csrf;
+                        return $csrf;
+                }
+
+                public function check_CSRF_protection_token($token)
+                {
+                        if (!isset($_SESSION['csrf']) || !is_string($_SESSION['csrf'])) {
+                                return false;
+                        }
+
+                        if (!is_string($token)) {
+                                return false;
+                        }
+
+                        return $_SESSION['csrf'] === $token;
+                }
+
+                public function clear_CSRF_protection_token()
+                {       
+                        $_SESSION['csrf'] = null;
+                }
         };

@@ -22,25 +22,32 @@ try {
         $um = new UserManager($dbh);
         $user = $um->get_logged_in_user();
 
+        if (!is_object($user)) {
+                my_redirect('/');
+        }
+
         if (array_key_exists('name', $_POST)) {
                 //INPUT VALIDATION
                 $name = SecFun::sanitize_string_input($_POST['name']);
                 $contents = SecFun::sanitize_string_input($_POST['contents']);
-                $_POST=NULL;
-                $_GET=NULL;
                 //END OF INPUT VALIDATION
 
                 if (!is_object($user)) {
                         $error = "You are not currently logged in";
                 } else {
-                        $post = ForumPost::create_as_new($dbh, $contents, $user, $contents_error_msg);
-                        $thread = ForumThread::create_as_new($dbh, $name, $user, $thread_name_error_msg);
-                        if ($post !== null && $thread !== null) {
-                                if ($thread->persist($thread_name_error_msg)) {
-                                        $post->thread_id = $thread->id;
-                                        if ($post->persist($contents_error_msg)) {
-                                                $dbh->commit();
-                                                my_redirect('show_thread.php?thread_id='.$thread->get_id());
+                        if (!$user->check_CSRF_protection_token($_POST['csrf_token'])) {
+                                $thread_name_error_msg = "You made the request out of sequence. Please repeat it.";
+                        } else {
+                                $user->clear_CSRF_protection_token();
+                                $post = ForumPost::create_as_new($dbh, $contents, $user, $contents_error_msg);
+                                $thread = ForumThread::create_as_new($dbh, $name, $user, $thread_name_error_msg);
+                                if ($post !== null && $thread !== null) {
+                                        if ($thread->persist($thread_name_error_msg)) {
+                                                $post->thread_id = $thread->id;
+                                                if ($post->persist($contents_error_msg)) {
+                                                        $dbh->commit();
+                                                        my_redirect('show_thread.php?thread_id='.$thread->get_id());
+                                                }
                                         }
                                 }
                         }
@@ -70,6 +77,7 @@ try {
         </p>
         <?php  if ($contents_error_msg !== NULL) echo "<p>$contents_error_msg</p>" ?>
         <p><textarea rows="5" cols="100" name="contents" maxlength="9990"><?php echo SecFun::escape_str_in_usual_html_pl($contents) ?></textarea></p>
+        <input name="csrf_token" type="hidden" value="<?= $user->get_new_CSRF_protection_token() ?>">
         <p><input type="submit" value="Submit a new thread"></p>
 </form>
 <form action="threadlist.php" method="get">
