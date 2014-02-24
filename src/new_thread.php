@@ -77,7 +77,7 @@ try {
         </p>
         <?php  if ($contents_error_msg !== NULL) echo "<p>$contents_error_msg</p>" ?>
         <p><textarea rows="5" cols="100" name="contents" maxlength="9990"><?php echo SecFun::escape_str_in_usual_html_pl($contents) ?></textarea></p>
-        <input name="csrf_token" type="hidden" value="<?= $user->get_new_CSRF_protection_token() ?>">
+        <input name="csrf_token" type="hidden" value="<?php echo $user->get_new_CSRF_protection_token() ?>">
         <p><input type="submit" value="Submit a new thread"></p>
 </form>
 <form action="threadlist.php" method="get">
