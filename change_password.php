@@ -32,13 +32,13 @@
                         $ret['password_repeat_error'] = 'Passwords do not match!';
                         $succeeded = false;
                 } else if (!$user->verify_password($old_password)){
-                        $ret['old_password_error'] = 'Password is incorrect!';
+                        $ret['old_password_error'] = 'Old password is incorrect!';
                         $succeeded = false;
-                } else {      
+                } else {
                         if ($user->change_password($password, $ret['password_error'])) {
                                 $succeeded = true;
                                 $dbh->commit();
-                        }     
+                        }
                 }
                 if ($succeeded !== true) {
                         $dbh->rollBack();
