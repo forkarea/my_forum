@@ -18,6 +18,7 @@
         {
                 display_error($name);
                 echo "<p>$description <input type=\"$type\" name=\"$name\"\n";
-                display_old_value($name);
+                if ($type !== 'password')
+                        display_old_value($name);
                 echo '</p>';
         }

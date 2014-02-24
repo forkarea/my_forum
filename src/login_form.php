@@ -65,8 +65,7 @@
                         value="<?php display_old_value('login'); ?>">
                 </p>
 
-                <p>Password: <input type="password" name="password"
-                        value="<?php display_old_value('password'); ?>">
+                <p>Password: <input type="password" name="password" >
                 </p>
 
                 <p><input type="submit" value="Log in"></p>
