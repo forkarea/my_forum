@@ -27,7 +27,7 @@
 
                 if (is_object($user)) {
                         $post = ForumPost::create_as_new($dbh, $text, $user, $text_error);
-                        if ($post != NULL) {
+                        if (is_object($post)) {
                                 $thread->add_post($post, $text_error);
                                 $dbh->commit();
                                 //else implicit rollback
