@@ -6,6 +6,8 @@
         use domain\UserManager;
         use utility\SecFun;
 
+        session_start();
+
         $ret = UserManager::get_empty_error_state();
         $dbh = utility\DatabaseConnection::getDatabaseConnection();
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

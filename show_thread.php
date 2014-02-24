@@ -8,6 +8,8 @@
         use domain\ForumPost;
         use domain\UserManager;
 
+        session_start();
+
         $thread_id = sanitize_nonzero_integer_input($_REQUEST['thread_id'], 'threadlist.php');
 
         $dbh = utility\DatabaseConnection::getDatabaseConnection();

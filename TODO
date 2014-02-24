@@ -4,3 +4,5 @@
 
 - widok wątków i postów podzielony na wiele stron,
 
+- znaleźć przyczynę spowolnienia przy towrzeniu nowych wątków - kiedyś (2 dni temu wieczorem) trwało to jakieś 100 ms, teraz ponad 200,
+

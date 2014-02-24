@@ -5,6 +5,8 @@
         use domain\ForumSection;
         use domain\UserManager;
 
+        session_start();
+
         $dbh = $um = $user = NULL;
         $dbh = utility\DatabaseConnection::getDatabaseConnection();
         $um = new UserManager($dbh);

@@ -142,31 +142,19 @@
                         $this->all_received_users[$user_id] = $user;
                         return $user;
                 }
+
                 public function get_logged_in_user()
                 {
-                        if (!isset($_COOKIE[User::LOGIN_SECRET_COOKIE_NAME]) ||
-                                        !isset($_COOKIE[User::USERNAME_COOKIE_NAME])) {
+                        //http://stackoverflow.com/questions/132194/php-storing-objects-inside-the-session
+                        //suggests it is better to get objects from the DB each time
+                        //then serialize/deserialize them to/from the session
+                        if (!isset($_SESSION['user_id']))
                                 return NULL;
-                        }
 
-                        try {
-                                $stmt = $this->dbh->prepare("select * from users where login = :login AND login_token = :login_token");
-                                $stmt->bindParam(":login", $_COOKIE[User::USERNAME_COOKIE_NAME]);
-                                $stmt->bindParam(":login_token",
-                                        $_COOKIE[User::LOGIN_SECRET_COOKIE_NAME]);
-                                $stmt->execute();
-                                $stmt->setFetchMode(PDO::FETCH_CLASS, 'domain\User', array($this->dbh));
-                                $user = $stmt->fetch();
-                                if ($user === false) {
-                                        return NULL;
-                                }
-
-                        } catch (PDOException $ex) {
+                        $user_id = $_SESSION['user_id'];
+                        if ($user_id === NULL)
                                 return NULL;
-                        }
-
-                        $this->all_received_users[$user->user_id] = $user;
-                        return $user;
+                        return $this->get_user_by_id($user_id);
                 }
 
                 public function log_in_user($login, $password)
@@ -194,7 +182,6 @@
 
                 public function clear_login_cookies()
                 {
-                        setcookie(User::USERNAME_COOKIE_NAME, "", 0);
-                        setcookie(User::LOGIN_SECRET_COOKIE_NAME, "", 0);
+                        unset($_SESSION['user_id']);
                 }
         };

@@ -8,6 +8,8 @@
         use domain\ForumThread;
         use utility\SecFun;
 
+        session_start();
+
         $error = NULL;
         $name = "";
         $contents = "";
