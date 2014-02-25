@@ -4,10 +4,8 @@ To clone this repository:
         git submodule init
         git submodule update
 
-
-The purpose of this project was not to create a working forum software, but to 
-learn PHP. Therefore, I spent much time on refactoring and ensuring that this
-project would be well designed.
+The purpose of this project was to learn PHP. Therefore, I spent much time on 
+refactoring and ensuring that this project is well designed.
 The most important thing that is left to make the project well designed
 is the unified handling of forms. There should be one class (with subclasses) 
 that is responsible for creating them and processing the queries. Early work
